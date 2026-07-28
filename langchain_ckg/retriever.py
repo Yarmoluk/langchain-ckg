@@ -100,13 +100,22 @@ class CKGRetriever(BaseRetriever):
 class CKGHostedRetriever(BaseRetriever):
     """Retrieve from a hosted CKG MCP server (rate-gated, upgradeable).
 
-    Hits ckg-nvidia-ai.onrender.com or any hosted CKG endpoint.
-    Free tier: 50 calls/day. Upgrade at https://graphifymd.com/pricing.
+    Supports three payment rails — all autonomous, no human required:
+
+    1. x402 (USDC on Base L2): pass ``x402_private_key`` — on 402, signs a
+       $0.001 USDC payment and retries automatically.
+    2. Lightning: pass ``lightning_invoice_id`` from ``GET /lightning/invoice``
+       on the endpoint — included as ``X-Lightning-Invoice-Id`` header.
+    3. License key: pass ``license_key`` (Polar) for unlimited annual access.
 
     Args:
         endpoint: Base URL of the hosted CKG server.
         domain: CKG domain name (e.g. "nvidia-nemoclaw").
-        license_key: Optional Polar license key for unlimited access.
+        license_key: Polar license key for unlimited access.
+        x402_private_key: EVM private key (hex, 0x-prefixed). Enables
+            autonomous USDC payment on Base L2 when a 402 is received.
+        lightning_invoice_id: Pre-paid Lightning invoice ID from
+            ``GET {endpoint}/lightning/invoice``.
         depth: Prerequisite traversal depth (default 3).
         k: Max concept matches (default 5).
     """
@@ -114,8 +123,46 @@ class CKGHostedRetriever(BaseRetriever):
     endpoint: str = "https://ckg-nvidia-ai.onrender.com"
     domain: str = "nvidia-nemoclaw"
     license_key: str = ""
+    x402_private_key: str = ""
+    lightning_invoice_id: str = ""
     depth: int = Field(default=3, ge=1, le=5)
     k: int = Field(default=5, ge=1, le=20)
+
+    def _build_headers(self) -> dict:
+        headers: dict = {}
+        if self.license_key:
+            headers["X-License-Key"] = self.license_key
+        if self.lightning_invoice_id:
+            headers["X-Lightning-Invoice-Id"] = self.lightning_invoice_id
+        return headers
+
+    def _mcp_body(self, query: str) -> dict:
+        return {
+            "method": "tools/call",
+            "params": {
+                "name": "query_ckg",
+                "arguments": {"domain": self.domain, "concept": query, "depth": self.depth},
+            },
+        }
+
+    def _sign_x402(self, payment_required_header: str) -> str:
+        """Sign a USDC payment on Base L2 and return the X-PAYMENT header value."""
+        try:
+            from x402 import x402ClientSync
+            from x402.http import decode_payment_required_header, safe_base64_encode
+            from x402.mechanisms.evm.exact import ExactEvmClientScheme
+            from eth_account import Account
+        except ImportError:
+            raise ImportError(
+                "x402 autonomous payment requires: pip install 'x402[evm]' eth-account"
+            )
+        account = Account.from_key(self.x402_private_key)
+        scheme = ExactEvmClientScheme(account)
+        client = x402ClientSync()
+        client.register("eip155:8453", scheme)
+        payment_required = decode_payment_required_header(payment_required_header)
+        payload = client.create_payment_payload(payment_required)
+        return safe_base64_encode(payload.model_dump_json(by_alias=True, exclude_none=True))
 
     def _get_relevant_documents(
         self,
@@ -128,26 +175,32 @@ class CKGHostedRetriever(BaseRetriever):
         except ImportError:
             raise ImportError("httpx required for CKGHostedRetriever: pip install httpx")
 
-        headers = {}
-        if self.license_key:
-            headers["X-License-Key"] = self.license_key
+        headers = self._build_headers()
 
         try:
             r = httpx.post(
                 f"{self.endpoint}/mcp",
                 headers=headers,
-                json={
-                    "method": "tools/call",
-                    "params": {
-                        "name": "query_ckg",
-                        "arguments": {"domain": self.domain, "concept": query, "depth": self.depth},
-                    },
-                },
-                timeout=10,
+                json=self._mcp_body(query),
+                timeout=15,
             )
+
+            if r.status_code == 402 and self.x402_private_key:
+                payment_required_header = r.headers.get("PAYMENT-REQUIRED", "")
+                if payment_required_header:
+                    headers["X-PAYMENT"] = self._sign_x402(payment_required_header)
+                    r = httpx.post(
+                        f"{self.endpoint}/mcp",
+                        headers=headers,
+                        json=self._mcp_body(query),
+                        timeout=15,
+                    )
+
             if r.status_code == 402:
                 data = r.json()
-                raise RuntimeError(data.get("error", "Rate limit reached. Upgrade at https://graphifymd.com/pricing"))
+                action = data.get("action_for_agent", "")
+                raise RuntimeError(action or data.get("error", "Rate limit. Upgrade at https://graphifymd.com/pricing"))
+
             r.raise_for_status()
             content = r.json().get("result", {}).get("content", [{}])[0].get("text", "")
         except RuntimeError:
@@ -158,7 +211,16 @@ class CKGHostedRetriever(BaseRetriever):
         return [
             Document(
                 page_content=content,
-                metadata={"domain": self.domain, "concept": query, "source": self.endpoint},
+                metadata={
+                    "domain": self.domain,
+                    "concept": query,
+                    "source": self.endpoint,
+                    "payment_rail": "x402" if self.x402_private_key else (
+                        "lightning" if self.lightning_invoice_id else (
+                            "license" if self.license_key else "free"
+                        )
+                    ),
+                },
             )
         ]
 
