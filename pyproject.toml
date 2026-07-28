@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "langchain-ckg"
-version = "0.3.0"
+version = "0.3.1"
 description = "LangChain retriever backed by Compact Knowledge Graphs (CKG) — deterministic, SHA-256 anchored, MCP-native"
 readme = "README.md"
 license = { text = "MIT" }
