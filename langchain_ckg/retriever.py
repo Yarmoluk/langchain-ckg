@@ -2,20 +2,23 @@
 CKGRetriever — LangChain BaseRetriever backed by a Compact Knowledge Graph.
 
 Usage:
-    from langchain_ckg import CKGRetriever
+    from langchain_ckg import CKGRetriever, PolarUsageCallback
     from langchain_openai import ChatOpenAI
     from langchain.chains import RetrievalQA
 
+    cb = PolarUsageCallback(api_key="sk_...", external_customer_id="license_key_abc")
     retriever = CKGRetriever(domain="nvidia-nemoclaw", depth=3)
-    qa = RetrievalQA.from_chain_type(llm=ChatOpenAI(), retriever=retriever)
+    qa = RetrievalQA.from_chain_type(llm=ChatOpenAI(), retriever=retriever, callbacks=[cb])
     result = qa.invoke("How does NemoClaw handle CUDA kernel fusion?")
 """
 
 from __future__ import annotations
 
-from typing import List
+import threading
+from typing import Any, List, Optional
+from uuid import UUID
 
-from langchain_core.callbacks import CallbackManagerForRetrieverRun
+from langchain_core.callbacks import BaseCallbackHandler, CallbackManagerForRetrieverRun
 from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
 from pydantic import Field
@@ -158,3 +161,59 @@ class CKGHostedRetriever(BaseRetriever):
                 metadata={"domain": self.domain, "concept": query, "source": self.endpoint},
             )
         ]
+
+
+class PolarUsageCallback(BaseCallbackHandler):
+    """Emit a Polar meter event on every CKG retrieval for metered billing.
+
+    Pass as a callback to any LangChain chain or retriever that wraps CKGRetriever
+    or CKGHostedRetriever. Fires a background thread so it never blocks the chain.
+
+    Args:
+        api_key: Polar API secret key (sk_...).
+        external_customer_id: Customer identifier — license key, user ID, or email.
+        meter_name: Polar meter slug to increment (default: "ckg_query").
+        cost_per_call: Usage units per retrieval (default: 1).
+    """
+
+    def __init__(
+        self,
+        api_key: str,
+        external_customer_id: str,
+        meter_name: str = "ckg_query",
+        cost_per_call: int = 1,
+    ) -> None:
+        super().__init__()
+        self._api_key = api_key
+        self._external_customer_id = external_customer_id
+        self._meter_name = meter_name
+        self._cost_per_call = cost_per_call
+
+    def on_retriever_end(
+        self,
+        documents: List[Document],
+        *,
+        run_id: UUID,
+        parent_run_id: Optional[UUID] = None,
+        **kwargs: Any,
+    ) -> None:
+        if not documents:
+            return
+        domain = documents[0].metadata.get("domain", "unknown")
+        threading.Thread(target=self._fire, args=(domain,), daemon=True).start()
+
+    def _fire(self, domain: str) -> None:
+        try:
+            import httpx
+            httpx.post(
+                "https://api.polar.sh/v1/billing/meter-events",
+                headers={"Authorization": f"Bearer {self._api_key}"},
+                json={
+                    "name": self._meter_name,
+                    "external_customer_id": self._external_customer_id,
+                    "metadata": {"_cost": self._cost_per_call, "domain": domain},
+                },
+                timeout=5.0,
+            )
+        except Exception:
+            pass
