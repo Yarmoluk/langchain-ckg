@@ -30,13 +30,12 @@ jobs:
           STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://pypi.org/pypi/langchain-ckg/${{ steps.meta.outputs.version }}/json)
           echo "status=$STATUS" >> $GITHUB_OUTPUT
 
-      - name: Build
+      - name: Build and publish
         if: steps.check.outputs.status == '404'
-        run: python -m build
-
-      - name: Publish to PyPI
-        if: steps.check.outputs.status == '404'
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
-          attestations: false
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          pip install twine
+          python -m build
+          twine upload dist/*
