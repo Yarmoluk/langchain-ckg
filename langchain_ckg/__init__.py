@@ -1,7 +1,7 @@
 from langchain_ckg.retriever import CKGRetriever, CKGHostedRetriever, PolarUsageCallback
 
 __all__ = ["CKGRetriever", "CKGHostedRetriever", "PolarUsageCallback"]
-__version__ = "0.3.1"
+__version__ = "0.4.0"
 
 import os as _os, sys as _sys, threading as _threading
 

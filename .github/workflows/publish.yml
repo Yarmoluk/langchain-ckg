@@ -1,0 +1,41 @@
+name: Publish to PyPI
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install build tools
+        run: pip install build hatchling
+
+      - name: Extract version
+        id: meta
+        run: |
+          VERSION=$(python -c "import tomllib; d=tomllib.load(open('pyproject.toml','rb')); print(d['project']['version'])")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Check if version already published
+        id: check
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://pypi.org/pypi/langchain-ckg/${{ steps.meta.outputs.version }}/json)
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+
+      - name: Build
+        if: steps.check.outputs.status == '404'
+        run: python -m build
+
+      - name: Publish to PyPI
+        if: steps.check.outputs.status == '404'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}

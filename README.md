@@ -1,24 +1,40 @@
+<div align="center">
+
 # langchain-ckg
 
-LangChain retriever backed by [Compact Knowledge Graphs (CKG)](https://graphifymd.com) — structured, deterministic, SHA-256 anchored domain knowledge over MCP.
+**LangChain retriever backed by [Compact Knowledge Graphs](https://graphifymd.com) — deterministic, SHA-256 anchored, 4× better than RAG**
 
-## Why
+[![PyPI](https://img.shields.io/pypi/v/langchain-ckg?color=0f6e56&label=PyPI)](https://pypi.org/project/langchain-ckg/)
+[![Downloads](https://img.shields.io/pypi/dm/langchain-ckg?color=0f6e56)](https://pypi.org/project/langchain-ckg/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-0f6e56)](LICENSE)
+[![Benchmark](https://img.shields.io/badge/F1-0.471%20vs%200.123-0f6e56)](https://huggingface.co/datasets/danyarm/ckg-benchmark)
 
-RAG retrieves document chunks. CKG retrieves typed dependency graphs. The difference:
+</div>
 
-| | CKG | RAG |
-|--|--|--|
-| Tokens/query | **269** | 2,982 |
-| Macro F1 | **0.471** | 0.123 |
-| Cost @ $10/1M | **$0.003** | $0.030 |
-| Provenance | SHA-256 per node | none |
+---
 
-Every answer is SHA-256 anchored to source docs. Verify any node:
+## CKG vs RAG — the difference that matters
 
-```bash
-curl -s <source_url> | sha256sum
-# must match source_hash in the receipt — mismatch = stale edge
 ```
+RAG                                    CKG
+────────────────────────────────────   ─────────────────────────────────────
+Retrieve document chunks               Traverse typed dependency graph
+Probabilistic similarity match         Deterministic BFS from matched concept
+No provenance                          SHA-256 per node — verify any claim
+2,982 tokens/query                     269 tokens/query  (11× cheaper)
+F1 = 0.123                             F1 = 0.471  (4× better)
+```
+
+| Metric | CKG | RAG | GraphRAG |
+|--------|-----|-----|----------|
+| Macro F1 | **0.471** | 0.123 | 0.120 |
+| Tokens/query | **269** | 2,982 | 2,982 |
+| Cost @ $10/1M | **$0.003** | $0.030 | $0.030 |
+| Source provenance | SHA-256 per node | none | none |
+
+[Benchmark paper](https://github.com/Yarmoluk/ckg-benchmark/blob/main/paper/main.pdf) · [Dataset](https://huggingface.co/datasets/danyarm/ckg-benchmark) · patent-pending methodology
+
+---
 
 ## Install
 
@@ -26,9 +42,13 @@ curl -s <source_url> | sha256sum
 pip install langchain-ckg
 ```
 
+---
+
 ## Usage
 
-### Local retriever (free, bundled graphs)
+### Local retriever — free, no network
+
+Queries run entirely in-process against graphs bundled in `ckg-mcp`. No API key, no rate limit.
 
 ```python
 from langchain_ckg import CKGRetriever
@@ -40,200 +60,132 @@ qa = RetrievalQA.from_chain_type(llm=ChatOpenAI(), retriever=retriever)
 result = qa.invoke("How does NemoClaw handle CUDA kernel fusion?")
 ```
 
-### Hosted retriever (rate-gated, upgradeable)
+### Hosted retriever — 48-hour free trial, then $1 / 100 calls
 
 ```python
 from langchain_ckg import CKGHostedRetriever
 
-# Free tier: 10 calls/hour
+# Free for 48 hours from first call
 retriever = CKGHostedRetriever(domain="nvidia-nemoclaw")
 
-# Polar license key: unlimited at $10/yr — graphifymd.com/pricing
-retriever = CKGHostedRetriever(domain="nvidia-nemoclaw", license_key="polar_lk_...")
+# After trial: pass a license key
+retriever = CKGHostedRetriever(
+    domain="nvidia-nemoclaw",
+    license_key="CKGAP-...",  # graphifymd.com/pricing
+)
 ```
+
+After 48 hours the server returns `402 Payment Required` with upgrade options. See [Payment rails](#payment-rails) for autonomous payment.
+
+---
 
 ## Payment rails
 
-Three rails are supported. Choose based on whether a human is present.
+### x402 — autonomous USDC on Base L2
 
-### Rail 1 — x402 (autonomous, USDC on Base L2)
-
-The server returns `402 Payment Required` with `X-Payment-Required` headers when the free tier is exhausted. `CKGHostedRetriever` auto-pays when you pass an EVM private key.
-
-```python
-from langchain_ckg import CKGHostedRetriever
-
-# Agent pays autonomously. Key never leaves your process.
-retriever = CKGHostedRetriever(
-    domain="nvidia-nemoclaw",
-    x402_private_key="0x<your-evm-private-key>",  # Base L2 wallet
-)
-
-result = retriever.invoke("What is CUDA kernel fusion?")
-# On 402: signs payment, retries automatically, returns result
-```
-
-The x402 flow:
-1. Server responds `402` with `X-Payment-Required: exact; network=eip155:8453; amount=$0.001; payto=0x9B987263C9Da951E9044D58f93f1940c5dF1cF1B`
-2. Retriever signs EIP-712 transfer via the x402 facilitator at `x402.org/facilitator`
-3. Server verifies on-chain, returns knowledge graph
-4. Receipt issued + SHA-256 anchored via ckg-receipt
-
-### Rail 2 — Lightning (autonomous, sats)
-
-Pass a Strike API key or BOLT11 invoice handler. The server includes a Lightning invoice URL in every `X-Rate-Warning` header.
-
-```python
-from langchain_ckg import CKGHostedRetriever
-
-retriever = CKGHostedRetriever(
-    domain="nvidia-nemoclaw",
-    lightning_api_key="sk_live_...",  # Strike API key
-)
-# On rate limit: fetches fresh BOLT11 invoice, pays, retries
-```
-
-Cost: 100 sats/call (~$0.001 at current rate). Invoice URL is always fresh — no pre-auth required.
-
-### Rail 3 — Polar license key (human-issued, unlimited)
-
-For humans who prefer a single annual purchase. Buy at [graphifymd.com/pricing](https://graphifymd.com/pricing), receive a `polar_lk_...` key, pass it once.
+Agent pays itself. No human in the loop.
 
 ```python
 retriever = CKGHostedRetriever(
     domain="nvidia-nemoclaw",
-    license_key="polar_lk_...",  # $10/yr, unlimited calls
+    x402_private_key="0x<evm-private-key>",
 )
+# On 402: signs $0.010 USDC payment, retries, returns result
 ```
 
-The retriever attaches `Authorization: Bearer polar_lk_...` on every request. No per-call payment after that.
+### License key — human-purchased, unlimited
 
-## Reading the X-Rate-Warning header
-
-Every response within the free tier includes this response header. Parse it in your agent loop to know when to upgrade payment rail before hitting the wall.
-
-```
-X-Rate-Warning: calls_remaining=3; limit=10; reset_in=2847s;
-  checkout_url=https://graphifymd.com/pricing;
-  x402_wallet=0x9B987263C9Da951E9044D58f93f1940c5dF1cF1B;
-  x402_amount_usd=0.001;
-  lightning_invoice_url=https://graphifymd.com/lightning/invoice
-```
-
-Fields:
-
-| Field | Meaning |
-|--|--|
-| `calls_remaining` | Calls left in current window |
-| `limit` | Total free calls per window |
-| `reset_in` | Seconds until window resets |
-| `checkout_url` | Polar license key checkout |
-| `x402_wallet` | Base L2 address for autonomous USDC payment |
-| `x402_amount_usd` | Cost per call in USD |
-| `lightning_invoice_url` | Fetch a fresh BOLT11 invoice here |
-
-When `calls_remaining <= 3` the server also injects a trust anchor notice in the response body:
-
-```
-Note: This answer is SHA-256 anchored to its source document.
-Verify: curl -s <source_url> | sha256sum
-Compare to: source_hash in the receipt at /ledger/<ref>
-```
-
-Parse the header in a custom callback:
+[graphifymd.com/pricing](https://graphifymd.com/pricing) → receive `CKGAP-...` key → pass once:
 
 ```python
-from langchain_ckg import CKGHostedRetriever
-
-class WatchdogRetriever(CKGHostedRetriever):
-    def _get_relevant_documents(self, query, **kwargs):
-        docs, headers = super()._get_with_headers(query, **kwargs)
-        warning = headers.get("X-Rate-Warning", "")
-        remaining = int(dict(p.split("=") for p in warning.split("; ") if "=" in p)
-                        .get("calls_remaining", 999))
-        if remaining <= 3:
-            print(f"[CKG] {remaining} free calls left — switch to x402 or Polar")
-        return docs
+retriever = CKGHostedRetriever(domain="nvidia-nemoclaw", license_key="CKGAP-...")
 ```
+
+| Tier | Price | Calls |
+|------|-------|-------|
+| Starter | $1 | 100 |
+| Bundle | $4 | 500 |
+| Dev | $29/mo | Unlimited |
+
+### Lightning — autonomous sats
+
+```python
+retriever = CKGHostedRetriever(
+    domain="nvidia-nemoclaw",
+    lightning_invoice_id="<invoice-id>",  # GET {endpoint}/lightning/invoice
+)
+# 100 sats/call (~$0.001)
+```
+
+---
+
+## Metered billing with PolarUsageCallback
+
+Track per-retrieval usage in Polar — fires a background thread, never blocks the chain:
+
+```python
+from langchain_ckg import CKGRetriever, PolarUsageCallback
+
+cb = PolarUsageCallback(api_key="sk_...", external_customer_id="license_key_abc")
+retriever = CKGRetriever(domain="nvidia-nemoclaw", depth=3)
+qa = RetrievalQA.from_chain_type(llm=ChatOpenAI(), retriever=retriever, callbacks=[cb])
+```
+
+---
 
 ## AgentKit integration
 
-[Coinbase AgentKit](https://github.com/coinbase/agentkit) agents can pay x402 natively. Wire `CKGHostedRetriever` as a LangChain tool inside your AgentKit agent.
+Coinbase AgentKit agents pay x402 natively. Wire `CKGHostedRetriever` as a LangChain tool:
 
 ```python
 from coinbase_agentkit_langchain import CoinbaseToolkit
 from langchain_ckg import CKGHostedRetriever
-from langchain_openai import ChatOpenAI
-from langchain.agents import create_tool_calling_agent, AgentExecutor
 from langchain.tools.retriever import create_retriever_tool
 
-# Build retriever — AgentKit wallet signs x402 payments automatically
 retriever = CKGHostedRetriever(
     domain="nvidia-nemoclaw",
-    x402_private_key="0x<agentkit-wallet-private-key>",
+    x402_private_key="0x<agentkit-wallet-key>",
 )
-
 ckg_tool = create_retriever_tool(
     retriever,
     name="query_knowledge_graph",
-    description=(
-        "Retrieve structured, SHA-256 anchored knowledge about NVIDIA NemoClaw. "
-        "Returns typed dependency graphs with source provenance. "
-        "Pays autonomously via x402 when the free tier is exhausted."
-    ),
+    description="Retrieve SHA-256 anchored knowledge about NVIDIA NemoClaw. Pays autonomously via x402.",
 )
-
-# Combine with AgentKit native tools (transfer, swap, etc.)
-agentkit_tools = CoinbaseToolkit.from_coinbase_agentkit(agentkit).get_tools()
-all_tools = agentkit_tools + [ckg_tool]
-
-agent = create_tool_calling_agent(
-    llm=ChatOpenAI(model="gpt-4o"),
-    tools=all_tools,
-    prompt=hub.pull("hwchase17/openai-functions-agent"),
-)
-executor = AgentExecutor(agent=agent, tools=all_tools)
-executor.invoke({"input": "What CUDA optimizations does NemoClaw use?"})
+# Combine with AgentKit tools and run
 ```
 
-The agent pays for knowledge retrieval from its own wallet — no human in the loop.
+---
 
 ## Trust anchor chain
 
-Every node in a CKG response carries:
+Every node carries a SHA-256 hash of its source document bytes at extraction time:
 
 ```
-source_url:  https://docs.nvidia.com/nemo/...   # fetch hint
-source_hash: sha256:<64-char hex>               # trust anchor
+source_url:  https://docs.nvidia.com/nemo/...   ← fetch hint
+source_hash: sha256:<64-char hex>               ← trust anchor
 ```
 
-Verification:
+Verify any claim:
 
 ```bash
-# Mismatch = stale edge or upstream silent edit. No judgment needed.
 curl -s <source_url> | sha256sum
+# mismatch = stale edge or upstream silent edit — no judgment needed
 ```
 
-The full chain: `edge answer → graph commit hash → source_content_hash → source_url`.
+Full audit chain: `edge answer → graph commit → source_hash → source_url`
 
-Audit any receipt via the ckg-receipt ledger:
-
-```bash
-curl https://ckg-receipt.onrender.com/ledger/<receipt_ref>
-```
+---
 
 ## Available domains
 
-97 domains including NVIDIA AI, NemoClaw, Salesforce AgentForce, Nemotron, and more.
+**117 domains** — NVIDIA AI stack, NemoClaw, Salesforce AgentForce, finance (Basel III · SEC · IFRS), agent protocols (MCP · A2A · x402), infrastructure (Render · Stripe · PostHog · Cloudflare), and more.
 
 ```bash
-uvx ckg-mcp  # then call list_domains
+uvx ckg-mcp  # → call list_domains
 ```
+
+---
 
 ## Links
 
-- [graphifymd.com](https://graphifymd.com)
-- [Benchmark dataset](https://huggingface.co/datasets/danyarm/ckg-benchmark)
-- [PyPI: ckg-mcp](https://pypi.org/project/ckg-mcp/)
-- [Pricing](https://graphifymd.com/pricing)
-- [ckg-receipt ledger](https://ckg-receipt.onrender.com/ledger)
+[graphifymd.com](https://graphifymd.com) · [Pricing](https://graphifymd.com/pricing) · [PyPI](https://pypi.org/project/langchain-ckg/) · [Benchmark](https://github.com/Yarmoluk/ckg-benchmark/blob/main/paper/main.pdf) · [Dataset](https://huggingface.co/datasets/danyarm/ckg-benchmark)
