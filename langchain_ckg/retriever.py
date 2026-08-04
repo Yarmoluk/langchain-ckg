@@ -21,20 +21,22 @@ from uuid import UUID
 from langchain_core.callbacks import BaseCallbackHandler, CallbackManagerForRetrieverRun
 from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
-from pydantic import Field
-
-from ckg_mcp.graph import load_graph, bfs_subgraph
+from pydantic import Field, PrivateAttr
 
 
 class CKGRetriever(BaseRetriever):
-    """Retrieve structured knowledge from a CKG domain as LangChain Documents.
+    """Retrieve structured knowledge from a local CKG domain as LangChain Documents.
 
     Each document contains the prerequisite + dependent subgraph for a matched
     concept, with SHA-256 source provenance in metadata when available.
 
+    Requires the ``ckg_mcp`` package (local/self-hosted graph runtime), which is
+    distributed separately — see https://graphifymd.com. Without it, use
+    ``CKGHostedRetriever``, which queries the hosted endpoint and needs only
+    ``httpx`` (installed by default).
+
     Args:
         domain: CKG domain name (e.g. "nvidia-nemoclaw", "nvidia-ai").
-                Run `uvx ckg-mcp list_domains` to see all 97 available domains.
         depth: Upstream prerequisite hops to traverse (1–5, default 3).
         k: Maximum number of concept matches to return (default 5).
     """
@@ -49,6 +51,16 @@ class CKGRetriever(BaseRetriever):
         *,
         run_manager: CallbackManagerForRetrieverRun,
     ) -> List[Document]:
+        try:
+            from ckg_mcp.graph import load_graph, bfs_subgraph
+        except ImportError:
+            raise ImportError(
+                "CKGRetriever (local mode) requires the ckg_mcp package, which is "
+                "distributed separately (https://graphifymd.com). For zero-setup "
+                "access to hosted graphs, use CKGHostedRetriever instead — it is "
+                "included in this package and needs no extra dependencies."
+            )
+
         id_to_label, label_to_id, prerequisites, dependents, taxonomy = load_graph(self.domain)
 
         q = query.lower().strip()
@@ -110,7 +122,8 @@ class CKGHostedRetriever(BaseRetriever):
 
     Args:
         endpoint: Base URL of the hosted CKG server.
-        domain: CKG domain name (e.g. "nvidia-nemoclaw").
+        domain: CKG domain name (e.g. "nvidia-nemo"). Call the server's
+            ``list_domains`` tool to see what the endpoint hosts.
         license_key: Polar license key for unlimited access.
         x402_private_key: EVM private key (hex, 0x-prefixed). Enables
             autonomous USDC payment on Base L2 when a 402 is received.
@@ -121,29 +134,77 @@ class CKGHostedRetriever(BaseRetriever):
     """
 
     endpoint: str = "https://ckg-nvidia-ai.onrender.com"
-    domain: str = "nvidia-nemoclaw"
+    domain: str = "nvidia-nemo"
     license_key: str = ""
     x402_private_key: str = ""
     lightning_invoice_id: str = ""
     depth: int = Field(default=3, ge=1, le=5)
     k: int = Field(default=5, ge=1, le=20)
 
+    _session_id: str = PrivateAttr(default="")
+
     def _build_headers(self) -> dict:
-        headers: dict = {}
+        headers: dict = {
+            "Content-Type": "application/json",
+            "Accept": "application/json, text/event-stream",
+        }
         if self.license_key:
             headers["X-License-Key"] = self.license_key
         if self.lightning_invoice_id:
             headers["X-Lightning-Invoice-Id"] = self.lightning_invoice_id
+        if self._session_id:
+            headers["Mcp-Session-Id"] = self._session_id
         return headers
 
     def _mcp_body(self, query: str) -> dict:
         return {
+            "jsonrpc": "2.0",
+            "id": 1,
             "method": "tools/call",
             "params": {
                 "name": "query_ckg",
                 "arguments": {"domain": self.domain, "concept": query, "depth": self.depth},
             },
         }
+
+    def _ensure_session(self, client) -> None:
+        """Open an MCP streamable-HTTP session: initialize + initialized notify."""
+        if self._session_id:
+            return
+        r = client.post(
+            f"{self.endpoint}/mcp",
+            headers=self._build_headers(),
+            json={
+                "jsonrpc": "2.0",
+                "id": 0,
+                "method": "initialize",
+                "params": {
+                    "protocolVersion": "2025-03-26",
+                    "capabilities": {},
+                    "clientInfo": {"name": "langchain-ckg", "version": "0.5.0"},
+                },
+            },
+        )
+        r.raise_for_status()
+        self._session_id = r.headers.get("mcp-session-id", "")
+        client.post(
+            f"{self.endpoint}/mcp",
+            headers=self._build_headers(),
+            json={"jsonrpc": "2.0", "method": "notifications/initialized"},
+        )
+
+    @staticmethod
+    def _parse_rpc(r) -> dict:
+        """Parse a JSON-RPC response that may arrive as plain JSON or SSE."""
+        if r.headers.get("content-type", "").startswith("text/event-stream"):
+            for line in r.text.splitlines():
+                if line.startswith("data:"):
+                    import json
+                    msg = json.loads(line[5:].strip())
+                    if "result" in msg or "error" in msg:
+                        return msg
+            return {}
+        return r.json()
 
     def _sign_x402(self, payment_required_header: str) -> str:
         """Sign a USDC payment on Base L2 and return the X-PAYMENT header value."""
@@ -175,34 +236,46 @@ class CKGHostedRetriever(BaseRetriever):
         except ImportError:
             raise ImportError("httpx required for CKGHostedRetriever: pip install httpx")
 
-        headers = self._build_headers()
-
         try:
-            r = httpx.post(
-                f"{self.endpoint}/mcp",
-                headers=headers,
-                json=self._mcp_body(query),
-                timeout=15,
-            )
+            with httpx.Client(timeout=30) as client:
+                self._ensure_session(client)
+                r = client.post(
+                    f"{self.endpoint}/mcp",
+                    headers=self._build_headers(),
+                    json=self._mcp_body(query),
+                )
 
-            if r.status_code == 402 and self.x402_private_key:
-                payment_required_header = r.headers.get("PAYMENT-REQUIRED", "")
-                if payment_required_header:
-                    headers["X-PAYMENT"] = self._sign_x402(payment_required_header)
-                    r = httpx.post(
+                if r.status_code in (400, 404):
+                    # Session expired or server restarted — re-handshake once.
+                    self._session_id = ""
+                    self._ensure_session(client)
+                    r = client.post(
                         f"{self.endpoint}/mcp",
-                        headers=headers,
+                        headers=self._build_headers(),
                         json=self._mcp_body(query),
-                        timeout=15,
                     )
 
-            if r.status_code == 402:
-                data = r.json()
-                action = data.get("action_for_agent", "")
-                raise RuntimeError(action or data.get("error", "Rate limit. Upgrade at https://graphifymd.com/pricing"))
+                if r.status_code == 402 and self.x402_private_key:
+                    payment_required_header = r.headers.get("PAYMENT-REQUIRED", "")
+                    if payment_required_header:
+                        headers = self._build_headers()
+                        headers["X-PAYMENT"] = self._sign_x402(payment_required_header)
+                        r = client.post(
+                            f"{self.endpoint}/mcp",
+                            headers=headers,
+                            json=self._mcp_body(query),
+                        )
 
-            r.raise_for_status()
-            content = r.json().get("result", {}).get("content", [{}])[0].get("text", "")
+                if r.status_code == 402:
+                    data = r.json()
+                    action = data.get("action_for_agent", "")
+                    raise RuntimeError(action or data.get("error", "Rate limit. Upgrade at https://graphifymd.com/pricing"))
+
+                r.raise_for_status()
+                msg = self._parse_rpc(r)
+                if "error" in msg:
+                    raise RuntimeError(msg["error"].get("message", "MCP error"))
+                content = msg.get("result", {}).get("content", [{}])[0].get("text", "")
         except RuntimeError:
             raise
         except Exception as e:

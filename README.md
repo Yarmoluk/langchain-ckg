@@ -46,36 +46,39 @@ pip install langchain-ckg
 
 ## Usage
 
-### Local retriever — free, no network
+### Hosted retriever — works out of the box, 48-hour free trial
 
-Queries run entirely in-process against graphs bundled in `ckg-mcp`. No API key, no rate limit.
-
-```python
-from langchain_ckg import CKGRetriever
-from langchain_openai import ChatOpenAI
-from langchain.chains import RetrievalQA
-
-retriever = CKGRetriever(domain="nvidia-nemoclaw", depth=3)
-qa = RetrievalQA.from_chain_type(llm=ChatOpenAI(), retriever=retriever)
-result = qa.invoke("How does NemoClaw handle CUDA kernel fusion?")
-```
-
-### Hosted retriever — 48-hour free trial, then $1 / 100 calls
+Queries the hosted CKG MCP endpoint. No setup beyond `pip install`.
 
 ```python
 from langchain_ckg import CKGHostedRetriever
+from langchain_openai import ChatOpenAI
+from langchain.chains import RetrievalQA
 
 # Free for 48 hours from first call
-retriever = CKGHostedRetriever(domain="nvidia-nemoclaw")
+retriever = CKGHostedRetriever(domain="nvidia-nemo")
+qa = RetrievalQA.from_chain_type(llm=ChatOpenAI(), retriever=retriever)
+result = qa.invoke("What does NeMo Guardrails require?")
 
 # After trial: pass a license key
 retriever = CKGHostedRetriever(
-    domain="nvidia-nemoclaw",
+    domain="nvidia-nemo",
     license_key="CKGAP-...",  # graphifymd.com/pricing
 )
 ```
 
 After 48 hours the server returns `402 Payment Required` with upgrade options. See [Payment rails](#payment-rails) for autonomous payment.
+
+### Local retriever — in-process, no network
+
+Runs entirely in-process against locally installed graphs. Requires the `ckg_mcp` runtime, distributed separately ([graphifymd.com](https://graphifymd.com)) — without it, `CKGRetriever` raises an `ImportError` pointing you to the hosted retriever above.
+
+```python
+from langchain_ckg import CKGRetriever
+
+retriever = CKGRetriever(domain="nvidia-nemoclaw", depth=3)
+result = retriever.invoke("How does NemoClaw handle CUDA kernel fusion?")
+```
 
 ---
 
@@ -87,7 +90,7 @@ Agent pays itself. No human in the loop.
 
 ```python
 retriever = CKGHostedRetriever(
-    domain="nvidia-nemoclaw",
+    domain="nvidia-nemo",
     x402_private_key="0x<evm-private-key>",
 )
 # On 402: signs $0.010 USDC payment, retries, returns result
@@ -98,7 +101,7 @@ retriever = CKGHostedRetriever(
 [graphifymd.com/pricing](https://graphifymd.com/pricing) → receive `CKGAP-...` key → pass once:
 
 ```python
-retriever = CKGHostedRetriever(domain="nvidia-nemoclaw", license_key="CKGAP-...")
+retriever = CKGHostedRetriever(domain="nvidia-nemo", license_key="CKGAP-...")
 ```
 
 | Tier | Price | Calls |
@@ -111,7 +114,7 @@ retriever = CKGHostedRetriever(domain="nvidia-nemoclaw", license_key="CKGAP-..."
 
 ```python
 retriever = CKGHostedRetriever(
-    domain="nvidia-nemoclaw",
+    domain="nvidia-nemo",
     lightning_invoice_id="<invoice-id>",  # GET {endpoint}/lightning/invoice
 )
 # 100 sats/call (~$0.001)
@@ -143,13 +146,13 @@ from langchain_ckg import CKGHostedRetriever
 from langchain.tools.retriever import create_retriever_tool
 
 retriever = CKGHostedRetriever(
-    domain="nvidia-nemoclaw",
+    domain="nvidia-nemo",
     x402_private_key="0x<agentkit-wallet-key>",
 )
 ckg_tool = create_retriever_tool(
     retriever,
     name="query_knowledge_graph",
-    description="Retrieve SHA-256 anchored knowledge about NVIDIA NemoClaw. Pays autonomously via x402.",
+    description="Retrieve SHA-256 anchored knowledge about the NVIDIA AI stack. Pays autonomously via x402.",
 )
 # Combine with AgentKit tools and run
 ```
@@ -180,9 +183,7 @@ Full audit chain: `edge answer → graph commit → source_hash → source_url`
 
 **117 domains** — NVIDIA AI stack, NemoClaw, Salesforce AgentForce, finance (Basel III · SEC · IFRS), agent protocols (MCP · A2A · x402), infrastructure (Render · Stripe · PostHog · Cloudflare), and more.
 
-```bash
-uvx ckg-mcp  # → call list_domains
-```
+Each hosted endpoint exposes a `list_domains` MCP tool — or browse the full library at [graphifymd.com](https://graphifymd.com).
 
 ---
 
