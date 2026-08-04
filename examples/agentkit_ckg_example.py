@@ -37,7 +37,7 @@ def demo_retriever_x402():
 
     retriever = CKGHostedRetriever(
         endpoint="https://ckg-nvidia-ai.onrender.com",
-        domain="nvidia-nemoclaw",
+        domain="nvidia-nemo",
         x402_private_key=private_key,
         depth=3,
     )
@@ -82,7 +82,7 @@ def demo_agentkit_agent():
 
     retriever = CKGHostedRetriever(
         endpoint="https://ckg-nvidia-ai.onrender.com",
-        domain="nvidia-nemoclaw",
+        domain="nvidia-nemo",
         x402_private_key=agentkit.wallet.default_address.export(),
         depth=3,
     )

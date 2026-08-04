@@ -1,0 +1,49 @@
+ConceptID,ConceptLabel,Dependencies,TaxonomyID,SourceURL,source_content_hash
+1,LangGraph Framework,,T-PLATFORM,https://docs.langchain.com/oss/python/langgraph/overview,sha256:2fd2ebe58378db16674fd11f4dd3d7c6481dfa79f10eb54edcd2a4cd03d2fc9a
+2,StateGraph,1:REQUIRES,T-CORE,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+3,CompiledGraph,2:REQUIRES,T-CORE,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+4,Node,2:REQUIRES,T-CORE,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+5,Edge,2:REQUIRES,T-CORE,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+6,Conditional Edge,5:REQUIRES,T-CORE,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+7,AgentState,2:REQUIRES,T-STATE,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+8,TypedDict,7:REQUIRES,T-STATE,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+9,Annotated Reducer,7:REQUIRES|8:REQUIRES,T-STATE,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+10,MessagesState,7:REQUIRES,T-STATE,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+11,START,2:REQUIRES,T-CONTROL,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+12,END,2:REQUIRES,T-CONTROL,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+13,Branch,6:REQUIRES|2:REQUIRES,T-CONTROL,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+14,Router Node,4:REQUIRES|13:REQUIRES,T-CONTROL,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+15,MemorySaver,2:REQUIRES,T-PERSISTENCE,https://docs.langchain.com/oss/python/langgraph/persistence,sha256:114c96d97354ae8ecc71a2abc876bddee1ea917856b6ba2693b9c78ad9727f96
+16,SqliteSaver,15:REQUIRES,T-PERSISTENCE,https://docs.langchain.com/oss/python/langgraph/persistence,sha256:114c96d97354ae8ecc71a2abc876bddee1ea917856b6ba2693b9c78ad9727f96
+17,PostgresSaver,15:REQUIRES,T-PERSISTENCE,https://docs.langchain.com/oss/python/langgraph/persistence,sha256:114c96d97354ae8ecc71a2abc876bddee1ea917856b6ba2693b9c78ad9727f96
+18,AsyncSqliteSaver,15:REQUIRES,T-PERSISTENCE,https://docs.langchain.com/oss/python/langgraph/persistence,sha256:114c96d97354ae8ecc71a2abc876bddee1ea917856b6ba2693b9c78ad9727f96
+19,Checkpointer,15:REQUIRES,T-PERSISTENCE,https://docs.langchain.com/oss/python/langgraph/persistence,sha256:114c96d97354ae8ecc71a2abc876bddee1ea917856b6ba2693b9c78ad9727f96
+20,thread_id,19:REQUIRES,T-PERSISTENCE,https://docs.langchain.com/oss/python/langgraph/persistence,sha256:114c96d97354ae8ecc71a2abc876bddee1ea917856b6ba2693b9c78ad9727f96
+21,interrupt,2:REQUIRES,T-HUMANINLOOP,https://docs.langchain.com/oss/python/langgraph/interrupts,sha256:ea6c471a50a3afc6bc190c19925766007593ba43909dc20a561cf0c994785f7c
+22,Command,21:REQUIRES,T-HUMANINLOOP,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+23,HumanMessage,21:REQUIRES,T-HUMANINLOOP,https://docs.langchain.com/oss/python/langgraph/interrupts,sha256:ea6c471a50a3afc6bc190c19925766007593ba43909dc20a561cf0c994785f7c
+24,approve/reject pattern,21:REQUIRES|22:REQUIRES,T-HUMANINLOOP,https://docs.langchain.com/oss/python/langgraph/interrupts,sha256:ea6c471a50a3afc6bc190c19925766007593ba43909dc20a561cf0c994785f7c
+25,stream,3:REQUIRES,T-STREAMING,https://docs.langchain.com/oss/python/langgraph/streaming,sha256:eca35904600c9d03615e55baa830d718ee7155118a7321bc09f5887b921d6739
+26,astream,25:REQUIRES,T-STREAMING,https://docs.langchain.com/oss/python/langgraph/streaming,sha256:eca35904600c9d03615e55baa830d718ee7155118a7321bc09f5887b921d6739
+27,stream_events,25:REQUIRES,T-STREAMING,https://docs.langchain.com/oss/python/langgraph/streaming,sha256:eca35904600c9d03615e55baa830d718ee7155118a7321bc09f5887b921d6739
+28,stream_mode,25:REQUIRES,T-STREAMING,https://docs.langchain.com/oss/python/langgraph/streaming,sha256:eca35904600c9d03615e55baa830d718ee7155118a7321bc09f5887b921d6739
+29,create_react_agent,1:REQUIRES,T-PREBUILT,https://docs.langchain.com/oss/python/langchain/agents,sha256:f36bbdd1ae4c0fac1d6ac8e3be79edb0aec655dc711d54d0647605c804afeff7
+30,ToolNode,4:REQUIRES|29:REQUIRES,T-PREBUILT,https://docs.langchain.com/oss/python/langgraph/agentic-rag,sha256:12f5691b40682e10f040f58104fc4eb34916b1326c8a152b1be5f4654a0d4053
+31,tools_condition,6:REQUIRES|29:REQUIRES,T-PREBUILT,https://docs.langchain.com/oss/python/langgraph/agentic-rag,sha256:12f5691b40682e10f040f58104fc4eb34916b1326c8a152b1be5f4654a0d4053
+32,Supervisor Agent,4:REQUIRES,T-MULTIAGENT,https://docs.langchain.com/oss/python/langchain/multi-agent,sha256:3271c787cf35c296ff810409c44c7292612b2994c0f0b9c98d554d04c817c7e0
+33,Worker Agent,4:REQUIRES|32:REQUIRES,T-MULTIAGENT,https://docs.langchain.com/oss/python/langchain/multi-agent,sha256:3271c787cf35c296ff810409c44c7292612b2994c0f0b9c98d554d04c817c7e0
+34,Handoff,5:REQUIRES|32:REQUIRES,T-MULTIAGENT,https://docs.langchain.com/oss/python/langchain/multi-agent,sha256:3271c787cf35c296ff810409c44c7292612b2994c0f0b9c98d554d04c817c7e0
+35,Subgraph,2:REQUIRES|3:REQUIRES,T-MULTIAGENT,https://docs.langchain.com/oss/python/langgraph/use-subgraphs,sha256:682d0909b9c36e3ca2aa86f9fff6e7ef0044d01bf31797d573e925359c8d0754
+36,add_node subgraph,35:REQUIRES|2:REQUIRES,T-MULTIAGENT,https://docs.langchain.com/oss/python/langgraph/use-subgraphs,sha256:682d0909b9c36e3ca2aa86f9fff6e7ef0044d01bf31797d573e925359c8d0754
+37,LangSmith Trace,3:REQUIRES,T-OBSERVABILIT,https://docs.langchain.com/langsmith/observability,sha256:42ae9e0562bf560e622f65924fe5ab968d52271b1bdbb20cb4a72a3b89477d52
+38,LangSmith Evaluate,37:REQUIRES,T-OBSERVABILIT,https://docs.langchain.com/langsmith/evaluation-concepts,sha256:7a0a1e8c29048d03df2c6859576fc51eced5ad7e74429222eb180df51c168776
+39,LangSmith Dataset,38:REQUIRES,T-OBSERVABILIT,https://docs.langchain.com/langsmith/evaluation-concepts,sha256:7a0a1e8c29048d03df2c6859576fc51eced5ad7e74429222eb180df51c168776
+40,recursion_limit,3:REQUIRES,T-CONFIG,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+41,config_schema,3:REQUIRES,T-CONFIG,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+42,RunnableConfig,41:REQUIRES,T-CONFIG,https://docs.langchain.com/oss/python/langgraph/graph-api,sha256:a5b8a03b486efb695d66f593854ce4415aa41b15e88155c4b386e02397a17522
+43,create_agent (v1),29:REPLACES|44:REQUIRES,T-V1-MIGRATION,https://docs.langchain.com/oss/python/migrate/langchain-v1,sha256:20875b922ebd3a324d8212b94bc43949daba91b1dfb0d433b1cad2d7eeaa934b
+44,langchain.agents namespace (v1),1:RELATES_TO,T-V1-MIGRATION,https://docs.langchain.com/oss/python/migrate/langchain-v1,sha256:20875b922ebd3a324d8212b94bc43949daba91b1dfb0d433b1cad2d7eeaa934b
+45,"system_prompt parameter (v1, replaces prompt)",43:REQUIRES,T-V1-MIGRATION,https://docs.langchain.com/oss/python/migrate/langchain-v1,sha256:20875b922ebd3a324d8212b94bc43949daba91b1dfb0d433b1cad2d7eeaa934b
+46,"Agent middleware (v1, replaces pre/post model hooks)",43:REQUIRES,T-V1-MIGRATION,https://docs.langchain.com/oss/python/migrate/langchain-v1,sha256:20875b922ebd3a324d8212b94bc43949daba91b1dfb0d433b1cad2d7eeaa934b
+47,langchain-classic (legacy chains package),1:RELATES_TO,T-V1-MIGRATION,https://docs.langchain.com/oss/python/migrate/langchain-v1,sha256:20875b922ebd3a324d8212b94bc43949daba91b1dfb0d433b1cad2d7eeaa934b
+48,"BaseStore (cross-session memory, distinct from Checkpointer)",19:RELATES_TO,T-PERSISTENCE,https://docs.langchain.com/oss/python/langgraph/persistence,sha256:114c96d97354ae8ecc71a2abc876bddee1ea917856b6ba2693b9c78ad9727f96

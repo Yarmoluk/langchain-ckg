@@ -1,0 +1,74 @@
+ConceptID,ConceptLabel,Dependencies,TaxonomyID,SourceURL,source_content_hash
+1,A2A Protocol,,T-CONCEPT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+2,A2A Client,1:REQUIRES:0.90,T-CONCEPT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+3,A2A Server (Remote Agent),1:REQUIRES:0.90,T-CONCEPT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+4,Agent Card,3:REQUIRES:0.90,T-CONCEPT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+5,Task,3:REQUIRES:0.90,T-CONCEPT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+6,Message,5:REQUIRES:0.90,T-CONCEPT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+7,Part,6:REQUIRES:0.90,T-CONCEPT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+8,Artifact,5:REQUIRES:0.90,T-CONCEPT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+9,Context (contextId),5:REQUIRES:0.90,T-CONCEPT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+10,Extension,1:REQUIRES:0.90,T-CONCEPT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+11,JSON-RPC 2.0 Transport,1:REQUIRES:0.90,T-TRANSPORT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+12,gRPC Transport,1:REQUIRES:0.90,T-TRANSPORT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+13,HTTP+JSON/REST Transport,1:REQUIRES:0.90,T-TRANSPORT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+14,Server-Sent Events (SSE),11:REQUIRES:0.90|13:REQUIRES:0.90,T-TRANSPORT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+15,Transport Extension,1:REQUIRES:0.90,T-TRANSPORT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+16,HTTPS/TLS Transport Security,1:REQUIRES:0.90,T-AUTH,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+17,Client Authentication,16:REQUIRES:0.90|22:REQUIRES:0.90,T-AUTH,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+18,In-Task Authentication,5:REQUIRES:0.90|32:REQUIRES:0.90,T-AUTH,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+19,Authorization,17:REQUIRES:0.90,T-AUTH,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+20,SecurityScheme,22:REQUIRES:0.90,T-AUTH,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+21,Push Notification Security,40:REQUIRES:0.90,T-AUTH,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+22,AgentCard Object,4:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+23,AgentProvider Object,22:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+24,AgentCapabilities Object,22:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+25,AgentExtension Object,24:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+26,AgentSkill Object,22:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+27,AgentInterface Object,22:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+28,AgentCardSignature Object,22:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+29,TransportProtocol Enum,22:REQUIRES:0.90,T-ENUM,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+30,Task Object,5:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+31,TaskStatus Object,30:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+32,TaskState Enum,31:REQUIRES:0.90,T-ENUM,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+33,Message Object,6:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+34,TextPart Object,7:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+35,FilePart Object,7:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+36,DataPart Object,7:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+37,FileWithBytes Object,35:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+38,FileWithUri Object,35:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+39,Artifact Object,8:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+40,PushNotificationConfig Object,5:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+41,PushNotificationAuthenticationInfo Object,40:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+42,TaskPushNotificationConfig Object,30:REQUIRES:0.90|40:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+43,JSONRPCError Object,11:REQUIRES:0.90,T-OBJECT,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+44,message/send,11:REQUIRES:0.90|54:REQUIRES:0.90,T-METHOD,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+45,message/stream,11:REQUIRES:0.90|14:REQUIRES:0.90|24:REQUIRES:0.90|54:REQUIRES:0.90,T-METHOD,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+46,tasks/get,11:REQUIRES:0.90|56:REQUIRES:0.90,T-METHOD,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+47,tasks/cancel,11:REQUIRES:0.90|57:REQUIRES:0.90,T-METHOD,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+48,tasks/pushNotificationConfig/set,11:REQUIRES:0.90|42:REQUIRES:0.90|24:REQUIRES:0.90,T-METHOD,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+49,tasks/pushNotificationConfig/get,11:REQUIRES:0.90|42:REQUIRES:0.90|24:REQUIRES:0.90,T-METHOD,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+50,tasks/pushNotificationConfig/list,11:REQUIRES:0.90|42:REQUIRES:0.90|24:REQUIRES:0.90,T-METHOD,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+51,tasks/pushNotificationConfig/delete,11:REQUIRES:0.90|24:REQUIRES:0.90,T-METHOD,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+52,tasks/resubscribe,11:REQUIRES:0.90|14:REQUIRES:0.90|24:REQUIRES:0.90|57:REQUIRES:0.90,T-METHOD,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+53,agent/getAuthenticatedExtendedCard,11:REQUIRES:0.90|22:REQUIRES:0.90|17:REQUIRES:0.90,T-METHOD,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+54,MessageSendParams,33:REQUIRES:0.90,T-PARAM,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+55,MessageSendConfiguration,54:REQUIRES:0.90,T-PARAM,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+56,TaskQueryParams,57:REQUIRES:0.90,T-PARAM,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+57,TaskIdParams,,T-PARAM,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+58,TaskStatusUpdateEvent,31:REQUIRES:0.90,T-PARAM,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+59,TaskArtifactUpdateEvent,39:REQUIRES:0.90,T-PARAM,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+60,SendStreamingMessageResponse,30:REQUIRES:0.90|33:REQUIRES:0.90|58:REQUIRES:0.90|59:REQUIRES:0.90,T-PARAM,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+61,TaskNotFoundError (-32001),43:REQUIRES:0.90,T-ERROR,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+62,TaskNotCancelableError (-32002),43:REQUIRES:0.90,T-ERROR,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+63,PushNotificationNotSupportedError (-32003),43:REQUIRES:0.90,T-ERROR,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+64,UnsupportedOperationError (-32004),43:REQUIRES:0.90,T-ERROR,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+65,ContentTypeNotSupportedError (-32005),43:REQUIRES:0.90,T-ERROR,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+66,InvalidAgentResponseError (-32006),43:REQUIRES:0.90,T-ERROR,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+67,AuthenticatedExtendedCardNotConfiguredError (-32007),43:REQUIRES:0.90,T-ERROR,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+68,Agent Compliance Rules,44:REQUIRES:0.90|46:REQUIRES:0.90|47:REQUIRES:0.90,T-RULE,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+69,Client Compliance Rules,44:REQUIRES:0.90|46:REQUIRES:0.90,T-RULE,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+70,Functional Equivalence Rule,11:REQUIRES:0.90|12:REQUIRES:0.90|13:REQUIRES:0.90,T-RULE,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+71,Well-Known URI Discovery,4:REQUIRES:0.90,T-DISCOVERY,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+72,Registry/Catalog Discovery,4:REQUIRES:0.90,T-DISCOVERY,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd
+73,Direct Configuration,4:REQUIRES:0.90,T-DISCOVERY,https://a2aproject.github.io/A2A/,sha256:36a4bad7470e9a2ae9067a0d61bc99040f4d993c9319213812640ee0169136fd

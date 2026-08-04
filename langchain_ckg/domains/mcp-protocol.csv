@@ -1,0 +1,57 @@
+ConceptID,ConceptLabel,Dependencies,TaxonomyID,SourceURL,source_content_hash
+1,MCP 2026-07-28,,T-CONCEPT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+2,Host,1:REQUIRES:0.90,T-ARCH,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+3,Client,2:REQUIRES:0.90,T-ARCH,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+4,Server,3:REQUIRES:0.90,T-ARCH,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+5,stdio Transport,1:REQUIRES:0.90,T-TRANSPORT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+6,Streamable HTTP Transport,1:REQUIRES:0.90,T-TRANSPORT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+7,SSE Transport (deprecated),,T-TRANSPORT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+8,Tools Primitive,4:REQUIRES:0.90,T-PRIMITIVE,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+9,Resources Primitive,4:REQUIRES:0.90,T-PRIMITIVE,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+10,Prompts Primitive,4:REQUIRES:0.90,T-PRIMITIVE,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+11,Sampling Primitive,4:REQUIRES:0.90,T-PRIMITIVE,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+12,Elicitation Primitive,4:REQUIRES:0.90,T-PRIMITIVE,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+13,Roots,3:REQUIRES:0.90,T-PRIMITIVE,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+14,JSON-RPC 2.0,1:REQUIRES:0.90,T-CONCEPT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+15,Stateless Protocol,1:REQUIRES:0.90,T-CONCEPT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+16,Capability Negotiation,3:REQUIRES:0.90,T-CONCEPT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+17,_meta Field,1:REQUIRES:0.90,T-META,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+18,io.modelcontextprotocol/protocolVersion,17:REQUIRES:0.90,T-META,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+19,io.modelcontextprotocol/clientInfo,17:REQUIRES:0.90,T-META,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+20,MCP-Protocol-Version Header,6:REQUIRES:0.90,T-META,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+21,OAuth 2.1 Authorization,6:REQUIRES:0.90,T-AUTH,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+22,OAuth 2.0 Bearer Token (RFC6750),21:REQUIRES:0.90,T-AUTH,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+23,Authorization Server Metadata (RFC8414),21:REQUIRES:0.90,T-AUTH,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+24,Dynamic Client Registration (RFC7591),21:REQUIRES:0.90,T-AUTH,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+25,Protected Resource Metadata (RFC9728),21:REQUIRES:0.90,T-AUTH,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+26,Resource Indicators (RFC8707),21:REQUIRES:0.90,T-AUTH,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+27,Scope Challenge Handling,21:REQUIRES:0.90,T-AUTH,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+28,Step-Up Authorization,21:REQUIRES:0.90,T-AUTH,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+29,Python SDK v2 (mcp),1:REQUIRES:0.90,T-SDK,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+30,MCPServer (Python),29:REQUIRES:0.90,T-SDK,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+31,mcp[cli] Extra,29:REQUIRES:0.90,T-SDK,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+32,TypeScript SDK v2,1:REQUIRES:0.90,T-SDK,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+33,@modelcontextprotocol/server,32:REQUIRES:0.90,T-SDK,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+34,@modelcontextprotocol/client,32:REQUIRES:0.90,T-SDK,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+35,TS SDK Middleware Packages,32:REQUIRES:0.90,T-SDK,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+36,Cancellation,1:REQUIRES:0.90,T-CONCEPT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+37,Custom Transport,1:REQUIRES:0.90,T-TRANSPORT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+38,Progress Notifications,17:REQUIRES:0.90,T-META,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+39,UnsupportedProtocolVersionError,18:REQUIRES:0.90,T-RULE,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+40,Server Discovery,4:REQUIRES:0.90,T-CONCEPT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+41,MCP Registry,40:REQUIRES:0.90,T-CONCEPT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+42,Primitive: Tool Annotations,8:REQUIRES:0.90,T-PRIMITIVE,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+43,Security Charter,1:REQUIRES:0.90,T-CONCEPT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+44,File Uploads Working Group,9:REQUIRES:0.90,T-CONCEPT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+45,SEP Process,1:REQUIRES:0.90,T-CONCEPT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+46,Python SDK v1 → v2 Migration,29:REQUIRES:0.90,T-RULE,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+47,TS SDK v1 → v2 Migration,32:REQUIRES:0.90,T-RULE,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+48,HTTP Transport Protocol Version Match,20:REQUIRES:0.90,T-RULE,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+49,STDIO Credential Sourcing,5:REQUIRES:0.90,T-RULE,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+50,clientInfo Not Security-Relevant,19:REQUIRES:0.90,T-RULE,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+51,Request Metadata Source of Truth,17:REQUIRES:0.90,T-RULE,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+52,Server Focus Principle,4:REQUIRES:0.90,T-CONCEPT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+53,Host Orchestration Principle,2:REQUIRES:0.90,T-CONCEPT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+54,Interceptors Working Group,1:REQUIRES:0.90,T-CONCEPT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+55,mcp CLI Tool,31:REQUIRES:0.90,T-SDK,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d
+56,Agent Skills (MCP),1:REQUIRES:0.90,T-CONCEPT,https://modelcontextprotocol.io/specification/2026-07-28,sha256-canon:37917e212996002bfe96174fb481b8f5d2ba0b0bbe8b0943d4dd70712b47152d

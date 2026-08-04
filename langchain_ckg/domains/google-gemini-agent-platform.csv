@@ -1,0 +1,41 @@
+ConceptID,ConceptLabel,Dependencies,TaxonomyID,SourceURL,source_content_hash
+1,Gemini Enterprise Agent Platform,2:RENAMED_FROM|3:BUILT_ON,T-PLATFORM,https://cloud.google.com/products/gemini-enterprise-agent-platform,sha256-canon:165c3de046d8fb77ac282a68f7c7ca8085342fb2822e8dd183c4290ce7ded84c
+2,Formerly Vertex AI Agent Builder,3:PART_OF,T-NAMING,https://cloud.google.com/products/gemini-enterprise-agent-platform,sha256-canon:165c3de046d8fb77ac282a68f7c7ca8085342fb2822e8dd183c4290ce7ded84c
+3,Vertex AI,,T-PLATFORM,https://docs.cloud.google.com/gemini-enterprise-agent-platform/machine-learning,sha256-canon:7ab9297d10ae382d55b90a0cb3ee7edf48eeaddc352a66a6519a94895a4ec28b
+4,Vertex AI Agent Engine,3:PART_OF|10:PROVIDES,T-SERVICE,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+5,Google Agent Development Kit (ADK),4:DEPLOYS_TO|40:AVAILABLE_IN|7:CONSUMES|9:SUPPORTS|14:REQUIRES,T-SDK,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+6,ADK MCPToolset,5:PART_OF|8:CONNECTS_TO,T-CONNECTOR,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+7,Model Context Protocol (MCP),,T-PROTOCOL,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+8,MCP Server,7:IMPLEMENTS,T-PROTOCOL,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+9,Agent-to-Agent (A2A) Protocol,,T-PROTOCOL,https://cloud.google.com/products/gemini-enterprise-agent-platform,sha256-canon:165c3de046d8fb77ac282a68f7c7ca8085342fb2822e8dd183c4290ce7ded84c
+10,Managed Agent Runtime,15:PROVIDES,T-RUNTIME,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+11,Agent Engine Sessions,4:PART_OF,T-STATE,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+12,Agent Engine Memory Bank,4:PART_OF,T-MEMORY,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+13,Example Store,4:PART_OF,T-MEMORY,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+14,Agent Deployment,10:REQUIRES,T-RUNTIME,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+15,Managed Scaling,,T-RUNTIME,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+16,Agent Tracing,4:MONITORS,T-GOVERNANCE,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+17,Agent Evaluation,4:MEASURES,T-GOVERNANCE,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+18,Gemini Model Family,21:PART_OF,T-MODEL,https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/google-models,sha256-canon:fd802984410bc03788e6c3aee4227c456073e4ef36138098d69e711a0d4ac089
+19,Gemini Pro,18:SUBTYPE_OF,T-MODEL,https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/google-models,sha256-canon:fd802984410bc03788e6c3aee4227c456073e4ef36138098d69e711a0d4ac089
+20,Gemini Flash,18:SUBTYPE_OF,T-MODEL,https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/google-models,sha256-canon:fd802984410bc03788e6c3aee4227c456073e4ef36138098d69e711a0d4ac089
+21,Model Garden,3:PART_OF,T-MODEL,https://docs.cloud.google.com/gemini-enterprise-agent-platform/machine-learning,sha256-canon:7ab9297d10ae382d55b90a0cb3ee7edf48eeaddc352a66a6519a94895a4ec28b
+22,Third-Party Models,21:PART_OF,T-MODEL,https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/google-models,sha256-canon:fd802984410bc03788e6c3aee4227c456073e4ef36138098d69e711a0d4ac089
+23,Grounding,24:REQUIRES|26:IMPLEMENTS,T-RETRIEVAL,https://cloud.google.com/products/gemini-enterprise-agent-platform,sha256-canon:165c3de046d8fb77ac282a68f7c7ca8085342fb2822e8dd183c4290ce7ded84c
+24,Vertex AI Search,1:PART_OF,T-RETRIEVAL,https://cloud.google.com/products/gemini-enterprise-agent-platform,sha256-canon:165c3de046d8fb77ac282a68f7c7ca8085342fb2822e8dd183c4290ce7ded84c
+25,Vertex AI RAG Engine,26:IMPLEMENTS|3:PART_OF,T-RETRIEVAL,https://docs.cloud.google.com/gemini-enterprise-agent-platform/machine-learning,sha256-canon:7ab9297d10ae382d55b90a0cb3ee7edf48eeaddc352a66a6519a94895a4ec28b
+26,Retrieval-Augmented Generation (RAG),28:REQUIRES,T-RETRIEVAL,https://docs.cloud.google.com/gemini-enterprise-agent-platform/machine-learning,sha256-canon:7ab9297d10ae382d55b90a0cb3ee7edf48eeaddc352a66a6519a94895a4ec28b
+27,Data Store,24:PART_OF,T-RETRIEVAL,https://cloud.google.com/products/gemini-enterprise-agent-platform,sha256-canon:165c3de046d8fb77ac282a68f7c7ca8085342fb2822e8dd183c4290ce7ded84c
+28,Vertex AI Vector Search,3:PART_OF,T-RETRIEVAL,https://docs.cloud.google.com/gemini-enterprise-agent-platform/machine-learning,sha256-canon:7ab9297d10ae382d55b90a0cb3ee7edf48eeaddc352a66a6519a94895a4ec28b
+29,Text Embeddings,28:REQUIRED_BY,T-RETRIEVAL,https://docs.cloud.google.com/gemini-enterprise-agent-platform/machine-learning,sha256-canon:7ab9297d10ae382d55b90a0cb3ee7edf48eeaddc352a66a6519a94895a4ec28b
+30,Gemini Function Calling,18:PART_OF|31:ENABLES,T-MECHANISM,https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/google-models,sha256-canon:fd802984410bc03788e6c3aee4227c456073e4ef36138098d69e711a0d4ac089
+31,Agent Tool Use,8:REQUIRES,T-MECHANISM,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+32,Multi-Agent System,34:ORCHESTRATES|9:REQUIRES,T-ORCHESTRATION,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+33,Workflow Agent,5:IMPLEMENTS,T-ORCHESTRATION,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+34,LLM Agent,5:IMPLEMENTS,T-AGENT,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194
+35,Vertex AI Pipelines,3:PART_OF,T-MLOPS,https://docs.cloud.google.com/gemini-enterprise-agent-platform/machine-learning,sha256-canon:7ab9297d10ae382d55b90a0cb3ee7edf48eeaddc352a66a6519a94895a4ec28b
+36,Vertex AI Model Registry,3:PART_OF,T-MLOPS,https://docs.cloud.google.com/gemini-enterprise-agent-platform/machine-learning,sha256-canon:7ab9297d10ae382d55b90a0cb3ee7edf48eeaddc352a66a6519a94895a4ec28b
+37,Vertex AI Endpoints,3:PART_OF,T-MLOPS,https://docs.cloud.google.com/gemini-enterprise-agent-platform/machine-learning,sha256-canon:7ab9297d10ae382d55b90a0cb3ee7edf48eeaddc352a66a6519a94895a4ec28b
+38,Vertex AI Feature Store,3:PART_OF,T-MLOPS,https://docs.cloud.google.com/gemini-enterprise-agent-platform/machine-learning,sha256-canon:7ab9297d10ae382d55b90a0cb3ee7edf48eeaddc352a66a6519a94895a4ec28b
+39,Safety Filters,18:GOVERNS,T-GOVERNANCE,https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/google-models,sha256-canon:fd802984410bc03788e6c3aee4227c456073e4ef36138098d69e711a0d4ac089
+40,Python SDK,,T-LANGUAGE,https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale,sha256-canon:6933896fcaf8182b485c3322c95a5d0727da18c708fe011f6a56d85e2bf60194

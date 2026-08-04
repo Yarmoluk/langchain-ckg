@@ -1,0 +1,41 @@
+ConceptID,ConceptLabel,Dependencies,TaxonomyID,SourceURL,source_content_hash
+1,Azure AI Foundry,,T-PLATFORM,https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry,sha256:b28ae1d5b5bb5a1c175a0604817e413283a74e719523a7466af895e80ce3e88f
+2,Azure AI Foundry Agent Service,1:PART_OF,T-SERVICE,https://learn.microsoft.com/en-us/azure/foundry/agents/overview,sha256:aa6c78d74757febfd28cf25468eaeef2f3935ff0918466d4f3cfcb5f5fae3f1c
+3,Microsoft Semantic Kernel,38:AVAILABLE_IN|39:AVAILABLE_IN|40:AVAILABLE_IN,T-SDK,https://learn.microsoft.com/en-us/semantic-kernel/overview/,sha256:e9134ea21d87afec43f006cb2c3c039e39d730fefce32523a609b4d6fb99f531
+4,Semantic Kernel Kernel Object,3:PART_OF,T-CORE,https://learn.microsoft.com/en-us/semantic-kernel/overview/,sha256:e9134ea21d87afec43f006cb2c3c039e39d730fefce32523a609b4d6fb99f531
+5,Semantic Kernel Plugin,4:REGISTERED_IN,T-EXTENSION,https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/,sha256:07717f413255309a9a30a39a4327364ea99c4ecbf96a9ebfc218dcd182fcdc0d
+6,Kernel Function,5:PART_OF|7:ENABLES,T-EXTENSION,https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/,sha256:07717f413255309a9a30a39a4327364ea99c4ecbf96a9ebfc218dcd182fcdc0d
+7,Function Calling,,T-MECHANISM,https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/,sha256:07717f413255309a9a30a39a4327364ea99c4ecbf96a9ebfc218dcd182fcdc0d
+8,MCP Plugin,5:SUBTYPE_OF|12:CONSUMES,T-EXTENSION,https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/adding-mcp-plugins,sha256:3da46c8162c9d975c7077acb2177cb629bbf2cdda695f5d2125106f985eafa97
+9,MCPStreamableHttpPlugin,8:IMPLEMENTS|13:CONNECTS_TO|13:REQUIRES,T-CONNECTOR,https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/adding-mcp-plugins,sha256:3da46c8162c9d975c7077acb2177cb629bbf2cdda695f5d2125106f985eafa97
+10,MCPSsePlugin,8:IMPLEMENTS|13:CONNECTS_TO,T-CONNECTOR,https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/adding-mcp-plugins,sha256:3da46c8162c9d975c7077acb2177cb629bbf2cdda695f5d2125106f985eafa97
+11,MCPStdioPlugin,8:IMPLEMENTS|13:CONNECTS_TO,T-CONNECTOR,https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/adding-mcp-plugins,sha256:3da46c8162c9d975c7077acb2177cb629bbf2cdda695f5d2125106f985eafa97
+12,Model Context Protocol (MCP),,T-PROTOCOL,https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/adding-mcp-plugins,sha256:3da46c8162c9d975c7077acb2177cb629bbf2cdda695f5d2125106f985eafa97
+13,MCP Server,12:IMPLEMENTS|35:EXPOSES,T-PROTOCOL,https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/adding-mcp-plugins,sha256:3da46c8162c9d975c7077acb2177cb629bbf2cdda695f5d2125106f985eafa97
+14,Semantic Kernel Agent Framework,3:PART_OF,T-FRAMEWORK,https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/,sha256:7d1f1291b4b7e8917b0235379ab26e8d82f0e57695da7d828b716447a9877ea8
+15,ChatCompletionAgent,14:IMPLEMENTS|4:REQUIRES,T-AGENT,https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/,sha256:7d1f1291b4b7e8917b0235379ab26e8d82f0e57695da7d828b716447a9877ea8
+16,AzureAIAgent,14:IMPLEMENTS|4:REQUIRES|2:RUNS_ON,T-AGENT,https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/,sha256:7d1f1291b4b7e8917b0235379ab26e8d82f0e57695da7d828b716447a9877ea8
+17,OpenAIAssistantAgent,14:IMPLEMENTS|4:REQUIRES,T-AGENT,https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/,sha256:7d1f1291b4b7e8917b0235379ab26e8d82f0e57695da7d828b716447a9877ea8
+18,Agent Group Chat,15:ORCHESTRATES,T-ORCHESTRATION,https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/,sha256:7d1f1291b4b7e8917b0235379ab26e8d82f0e57695da7d828b716447a9877ea8
+19,Multi-Agent Orchestration,18:IMPLEMENTS,T-ORCHESTRATION,https://learn.microsoft.com/en-us/semantic-kernel/frameworks/agent/,sha256:7d1f1291b4b7e8917b0235379ab26e8d82f0e57695da7d828b716447a9877ea8
+20,Semantic Kernel Process Framework,3:PART_OF|23:PRODUCES,T-FRAMEWORK,https://learn.microsoft.com/en-us/semantic-kernel/frameworks/process/process-framework,sha256:b0ef655016655d8ae7ab41484e564891cc6a2dc8186fad3ab19e2f7c657de895
+21,Process Step,20:PART_OF,T-WORKFLOW,https://learn.microsoft.com/en-us/semantic-kernel/frameworks/process/process-framework,sha256:b0ef655016655d8ae7ab41484e564891cc6a2dc8186fad3ab19e2f7c657de895
+22,Process Event,21:TRIGGERS,T-WORKFLOW,https://learn.microsoft.com/en-us/semantic-kernel/frameworks/process/process-framework,sha256:b0ef655016655d8ae7ab41484e564891cc6a2dc8186fad3ab19e2f7c657de895
+23,Stateful Workflow,22:REQUIRES,T-WORKFLOW,https://learn.microsoft.com/en-us/semantic-kernel/frameworks/process/process-framework,sha256:b0ef655016655d8ae7ab41484e564891cc6a2dc8186fad3ab19e2f7c657de895
+24,Semantic Memory,3:PART_OF,T-MEMORY,https://learn.microsoft.com/en-us/semantic-kernel/overview/,sha256:e9134ea21d87afec43f006cb2c3c039e39d730fefce32523a609b4d6fb99f531
+25,AI Service Connector,4:PART_OF|26:CONNECTS_TO,T-CONNECTOR,https://learn.microsoft.com/en-us/semantic-kernel/overview/,sha256:e9134ea21d87afec43f006cb2c3c039e39d730fefce32523a609b4d6fb99f531
+26,Azure OpenAI Service,1:PART_OF|27:LISTED_IN,T-MODEL,https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry,sha256:b28ae1d5b5bb5a1c175a0604817e413283a74e719523a7466af895e80ce3e88f
+27,Foundry Model Catalog,1:PART_OF,T-MODEL,https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry,sha256:b28ae1d5b5bb5a1c175a0604817e413283a74e719523a7466af895e80ce3e88f
+28,Prompt Template,5:PART_OF,T-PROMPT,https://learn.microsoft.com/en-us/semantic-kernel/overview/,sha256:e9134ea21d87afec43f006cb2c3c039e39d730fefce32523a609b4d6fb99f531
+29,Planner,6:ORCHESTRATES,T-ORCHESTRATION,https://learn.microsoft.com/en-us/semantic-kernel/overview/,sha256:e9134ea21d87afec43f006cb2c3c039e39d730fefce32523a609b4d6fb99f531
+30,Function Invocation Filters,7:GOVERNS,T-GOVERNANCE,https://learn.microsoft.com/en-us/semantic-kernel/concepts/plugins/,sha256:07717f413255309a9a30a39a4327364ea99c4ecbf96a9ebfc218dcd182fcdc0d
+31,Content Safety,1:GOVERNS,T-GOVERNANCE,https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry,sha256:b28ae1d5b5bb5a1c175a0604817e413283a74e719523a7466af895e80ce3e88f
+32,Foundry Evaluation,2:MEASURES,T-GOVERNANCE,https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry,sha256:b28ae1d5b5bb5a1c175a0604817e413283a74e719523a7466af895e80ce3e88f
+33,Agent Tracing and Observability,2:MONITORS,T-GOVERNANCE,https://learn.microsoft.com/en-us/azure/foundry/agents/overview,sha256:aa6c78d74757febfd28cf25468eaeef2f3935ff0918466d4f3cfcb5f5fae3f1c
+34,Agent Thread,2:PART_OF,T-STATE,https://learn.microsoft.com/en-us/azure/foundry/agents/overview,sha256:aa6c78d74757febfd28cf25468eaeef2f3935ff0918466d4f3cfcb5f5fae3f1c
+35,Agent Tool,2:USED_BY,T-EXTENSION,https://learn.microsoft.com/en-us/azure/foundry/agents/overview,sha256:aa6c78d74757febfd28cf25468eaeef2f3935ff0918466d4f3cfcb5f5fae3f1c
+36,Knowledge Tool,35:SUBTYPE_OF,T-EXTENSION,https://learn.microsoft.com/en-us/azure/foundry/agents/overview,sha256:aa6c78d74757febfd28cf25468eaeef2f3935ff0918466d4f3cfcb5f5fae3f1c
+37,Action Tool,35:SUBTYPE_OF,T-EXTENSION,https://learn.microsoft.com/en-us/azure/foundry/agents/overview,sha256:aa6c78d74757febfd28cf25468eaeef2f3935ff0918466d4f3cfcb5f5fae3f1c
+38,Python SDK,,T-LANGUAGE,https://learn.microsoft.com/en-us/semantic-kernel/overview/,sha256:e9134ea21d87afec43f006cb2c3c039e39d730fefce32523a609b4d6fb99f531
+39,.NET SDK,,T-LANGUAGE,https://learn.microsoft.com/en-us/semantic-kernel/overview/,sha256:e9134ea21d87afec43f006cb2c3c039e39d730fefce32523a609b4d6fb99f531
+40,Java SDK,,T-LANGUAGE,https://learn.microsoft.com/en-us/semantic-kernel/overview/,sha256:e9134ea21d87afec43f006cb2c3c039e39d730fefce32523a609b4d6fb99f531

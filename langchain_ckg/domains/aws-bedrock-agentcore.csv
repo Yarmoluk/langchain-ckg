@@ -1,0 +1,37 @@
+ConceptID,ConceptLabel,Dependencies,TaxonomyID,SourceURL,source_content_hash
+1,Amazon Bedrock AgentCore,2:EXTENDS,T-PLATFORM,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html,sha256:8023635643495a3654e25b723e2c747a44d68e4061fa3ddc7476fb023bb4517c
+2,Amazon Bedrock,,T-PLATFORM,https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html,sha256:1c6ede22d1eaf2fd3c30ee762279ace5f10982eb19868633945c55dcbe0e29a9
+3,AgentCore Runtime,1:PART_OF|8:PROVIDES|9:PROVIDES|26:PROVIDES|27:PROVIDES|28:PROVIDES,T-SERVICE,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html,sha256:8023635643495a3654e25b723e2c747a44d68e4061fa3ddc7476fb023bb4517c
+4,AgentCore Gateway,1:PART_OF|11:EXPOSES|15:IMPLEMENTS,T-SERVICE,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway.html,sha256:a23aee0583a8f2799babf296971587e005459b7340f75db61bc5102e2c651978
+5,AgentCore Memory,1:PART_OF,T-SERVICE,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/memory.html,sha256:6026fa5dece184cbcf80d0c15fed6789161a321db53be98c90f70cb6511f3055
+6,AgentCore Identity,1:PART_OF|4:GOVERNS,T-SERVICE,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/identity.html,sha256:f248c3581150f1634455054c848e5907aef0597c885678478fec649f918960af
+7,AgentCore Observability,1:PART_OF|3:MONITORS,T-SERVICE,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html,sha256:8023635643495a3654e25b723e2c747a44d68e4061fa3ddc7476fb023bb4517c
+8,AgentCore Code Interpreter,1:PART_OF,T-TOOL,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html,sha256:8023635643495a3654e25b723e2c747a44d68e4061fa3ddc7476fb023bb4517c
+9,AgentCore Browser Tool,1:PART_OF,T-TOOL,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html,sha256:8023635643495a3654e25b723e2c747a44d68e4061fa3ddc7476fb023bb4517c
+10,Model Context Protocol (MCP),,T-PROTOCOL,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway.html,sha256:a23aee0583a8f2799babf296971587e005459b7340f75db61bc5102e2c651978
+11,MCP Server,10:IMPLEMENTS,T-PROTOCOL,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway.html,sha256:a23aee0583a8f2799babf296971587e005459b7340f75db61bc5102e2c651978
+12,Gateway Target,4:PART_OF|11:CONVERTED_TO,T-EXTENSION,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway.html,sha256:a23aee0583a8f2799babf296971587e005459b7340f75db61bc5102e2c651978
+13,Lambda Target,12:SUBTYPE_OF,T-EXTENSION,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway.html,sha256:a23aee0583a8f2799babf296971587e005459b7340f75db61bc5102e2c651978
+14,OpenAPI Target,12:SUBTYPE_OF,T-EXTENSION,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway.html,sha256:a23aee0583a8f2799babf296971587e005459b7340f75db61bc5102e2c651978
+15,Tool Unification,,T-MECHANISM,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway.html,sha256:a23aee0583a8f2799babf296971587e005459b7340f75db61bc5102e2c651978
+16,Short-Term Memory,5:PART_OF,T-MEMORY,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/memory.html,sha256:6026fa5dece184cbcf80d0c15fed6789161a321db53be98c90f70cb6511f3055
+17,Long-Term Memory,5:PART_OF,T-MEMORY,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/memory.html,sha256:6026fa5dece184cbcf80d0c15fed6789161a321db53be98c90f70cb6511f3055
+18,Memory Strategy,17:GOVERNS,T-MEMORY,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/memory.html,sha256:6026fa5dece184cbcf80d0c15fed6789161a321db53be98c90f70cb6511f3055
+19,OAuth 2.0 Authorization,,T-SECURITY,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/identity.html,sha256:f248c3581150f1634455054c848e5907aef0597c885678478fec649f918960af
+20,Inbound Authorization,6:PART_OF|19:REQUIRES,T-SECURITY,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/identity.html,sha256:f248c3581150f1634455054c848e5907aef0597c885678478fec649f918960af
+21,Outbound Authorization,6:PART_OF|19:REQUIRES|22:REQUIRES,T-SECURITY,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/identity.html,sha256:f248c3581150f1634455054c848e5907aef0597c885678478fec649f918960af
+22,Workload Identity,6:PART_OF,T-SECURITY,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/identity.html,sha256:f248c3581150f1634455054c848e5907aef0597c885678478fec649f918960af
+23,AWS Strands Agents SDK,24:PROVIDES|10:CONSUMES|3:RUNS_ON|25:IMPLEMENTS,T-SDK,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html,sha256:8023635643495a3654e25b723e2c747a44d68e4061fa3ddc7476fb023bb4517c
+24,Strands MCPClient,11:CONNECTS_TO,T-CONNECTOR,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway.html,sha256:a23aee0583a8f2799babf296971587e005459b7340f75db61bc5102e2c651978
+25,Agent Loop,29:REQUIRES,T-MECHANISM,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html,sha256:8023635643495a3654e25b723e2c747a44d68e4061fa3ddc7476fb023bb4517c
+26,Session Isolation,,T-RUNTIME,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html,sha256:8023635643495a3654e25b723e2c747a44d68e4061fa3ddc7476fb023bb4517c
+27,Serverless Agent Hosting,,T-RUNTIME,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html,sha256:8023635643495a3654e25b723e2c747a44d68e4061fa3ddc7476fb023bb4517c
+28,Long-Running Execution,,T-RUNTIME,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html,sha256:8023635643495a3654e25b723e2c747a44d68e4061fa3ddc7476fb023bb4517c
+29,Foundation Model,2:PART_OF,T-MODEL,https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html,sha256:1c6ede22d1eaf2fd3c30ee762279ace5f10982eb19868633945c55dcbe0e29a9
+30,Anthropic Claude on Bedrock,29:SUBTYPE_OF,T-MODEL,https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html,sha256:1c6ede22d1eaf2fd3c30ee762279ace5f10982eb19868633945c55dcbe0e29a9
+31,Amazon Nova,29:SUBTYPE_OF,T-MODEL,https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html,sha256:1c6ede22d1eaf2fd3c30ee762279ace5f10982eb19868633945c55dcbe0e29a9
+32,Bedrock Guardrails,29:GOVERNS,T-GOVERNANCE,https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html,sha256:1c6ede22d1eaf2fd3c30ee762279ace5f10982eb19868633945c55dcbe0e29a9
+33,Bedrock Knowledge Bases,34:IMPLEMENTS|2:PART_OF,T-RETRIEVAL,https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html,sha256:1c6ede22d1eaf2fd3c30ee762279ace5f10982eb19868633945c55dcbe0e29a9
+34,Retrieval-Augmented Generation (RAG),,T-RETRIEVAL,https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html,sha256:1c6ede22d1eaf2fd3c30ee762279ace5f10982eb19868633945c55dcbe0e29a9
+35,Bedrock Agents,2:PART_OF|29:REQUIRES,T-AGENT,https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html,sha256:1c6ede22d1eaf2fd3c30ee762279ace5f10982eb19868633945c55dcbe0e29a9
+36,Framework-Agnostic Hosting,3:IMPLEMENTED_BY,T-MECHANISM,https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/what-is-bedrock-agentcore.html,sha256:8023635643495a3654e25b723e2c747a44d68e4061fa3ddc7476fb023bb4517c

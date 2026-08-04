@@ -1,15 +1,19 @@
 """
-CKGRetriever — LangChain BaseRetriever backed by a Compact Knowledge Graph.
+CKGRetriever — LangChain BaseRetriever backed by a Compressed Knowledge Graph.
 
-Usage:
-    from langchain_ckg import CKGRetriever, PolarUsageCallback
-    from langchain_openai import ChatOpenAI
-    from langchain.chains import RetrievalQA
+Usage (langchain >= 1.0 idiom):
+    from langchain.agents import create_agent
+    from langchain.tools import tool
+    from langchain_ckg import CKGRetriever
 
-    cb = PolarUsageCallback(api_key="sk_...", external_customer_id="license_key_abc")
-    retriever = CKGRetriever(domain="nvidia-nemoclaw", depth=3)
-    qa = RetrievalQA.from_chain_type(llm=ChatOpenAI(), retriever=retriever, callbacks=[cb])
-    result = qa.invoke("How does NemoClaw handle CUDA kernel fusion?")
+    retriever = CKGRetriever()  # bundled langgraph domain, offline
+
+    @tool
+    def langgraph_map(query: str) -> str:
+        '''Look up LangGraph concepts, their prerequisites, and source docs.'''
+        return "\\n\\n".join(d.page_content for d in retriever.invoke(query))
+
+    agent = create_agent(model="claude-opus-5", tools=[langgraph_map])
 """
 
 from __future__ import annotations
@@ -25,23 +29,30 @@ from pydantic import Field, PrivateAttr
 
 
 class CKGRetriever(BaseRetriever):
-    """Retrieve structured knowledge from a local CKG domain as LangChain Documents.
+    """Retrieve structured knowledge from a bundled CKG domain — offline, in-process.
+
+    Eleven agent-stack knowledge graphs ship inside this package (LangGraph, MCP,
+    A2A, agent memory, agent loop patterns, AWS Bedrock AgentCore, Palantir
+    Foundry, Google Gemini agent platform, Microsoft agent stack, CrewAI,
+    LlamaIndex) — call :func:`langchain_ckg.available_domains` to list them.
+    No network, no API key, no rate limit.
 
     Each document contains the prerequisite + dependent subgraph for a matched
-    concept, with SHA-256 source provenance in metadata when available.
+    concept. Nodes carry SHA-256 source provenance: the matched concept's
+    ``source_url`` and ``source_hash`` land in ``Document.metadata``, so any
+    claim is verifiable with ``curl -s <source_url> | sha256sum``.
 
-    Requires the ``ckg_mcp`` package (local/self-hosted graph runtime), which is
-    distributed separately — see https://graphifymd.com. Without it, use
-    ``CKGHostedRetriever``, which queries the hosted endpoint and needs only
-    ``httpx`` (installed by default).
+    Domains beyond the bundled set resolve through the optional ``ckg_mcp``
+    runtime if installed, or use ``CKGHostedRetriever`` for the full hosted
+    library.
 
     Args:
-        domain: CKG domain name (e.g. "nvidia-nemoclaw", "nvidia-ai").
+        domain: Bundled domain name (default "langgraph").
         depth: Upstream prerequisite hops to traverse (1–5, default 3).
         k: Maximum number of concept matches to return (default 5).
     """
 
-    domain: str
+    domain: str = "langgraph"
     depth: int = Field(default=3, ge=1, le=5)
     k: int = Field(default=5, ge=1, le=20)
 
@@ -51,17 +62,24 @@ class CKGRetriever(BaseRetriever):
         *,
         run_manager: CallbackManagerForRetrieverRun,
     ) -> List[Document]:
-        try:
-            from ckg_mcp.graph import load_graph, bfs_subgraph
-        except ImportError:
-            raise ImportError(
-                "CKGRetriever (local mode) requires the ckg_mcp package, which is "
-                "distributed separately (https://graphifymd.com). For zero-setup "
-                "access to hosted graphs, use CKGHostedRetriever instead — it is "
-                "included in this package and needs no extra dependencies."
-            )
+        from langchain_ckg._graph import DOMAINS_DIR, available_domains
 
-        id_to_label, label_to_id, prerequisites, dependents, taxonomy = load_graph(self.domain)
+        if (DOMAINS_DIR / f"{self.domain}.csv").exists():
+            from langchain_ckg._graph import load_graph, bfs_subgraph
+        else:
+            try:
+                from ckg_mcp.graph import load_graph, bfs_subgraph
+            except ImportError:
+                raise ValueError(
+                    f"Domain '{self.domain}' is not bundled with langchain-ckg. "
+                    f"Bundled domains: {', '.join(available_domains())}. "
+                    "For the full 100+ domain library use CKGHostedRetriever "
+                    "(hosted, 48h free) — see https://graphifymd.com."
+                )
+
+        graph = load_graph(self.domain)
+        id_to_label, label_to_id, prerequisites, dependents, taxonomy = graph[:5]
+        provenance = graph[5] if len(graph) > 5 else {}
 
         q = query.lower().strip()
         matches = [(label, cid) for label, cid in label_to_id.items() if q in label][:self.k]
@@ -93,6 +111,12 @@ class CKGRetriever(BaseRetriever):
             if tax:
                 lines.append(f"\nTaxonomy: {tax}")
 
+            prov = provenance.get(cid, {})
+            if prov.get("source_url"):
+                lines.append(f"Source: {prov['source_url']}")
+            if prov.get("source_hash"):
+                lines.append(f"Source hash: {prov['source_hash']}")
+
             docs.append(
                 Document(
                     page_content="\n".join(lines),
@@ -100,8 +124,13 @@ class CKGRetriever(BaseRetriever):
                         "domain": self.domain,
                         "concept": id_to_label[cid],
                         "taxonomy": tax,
-                        "source": "ckg-mcp",
-                        "provenance": "sha256-anchored",
+                        "source_url": prov.get("source_url", ""),
+                        "source_hash": prov.get("source_hash", ""),
+                        "provenance": (
+                            "sha256-anchored"
+                            if prov.get("source_url", "").startswith("http")
+                            else "extraction-internal" if prov else "none"
+                        ),
                     },
                 )
             )
@@ -181,7 +210,7 @@ class CKGHostedRetriever(BaseRetriever):
                 "params": {
                     "protocolVersion": "2025-03-26",
                     "capabilities": {},
-                    "clientInfo": {"name": "langchain-ckg", "version": "0.5.0"},
+                    "clientInfo": {"name": "langchain-ckg", "version": "0.6.0"},
                 },
             },
         )

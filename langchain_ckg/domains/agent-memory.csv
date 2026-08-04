@@ -1,0 +1,47 @@
+ConceptID,ConceptLabel,Dependencies,TaxonomyID,SourceURL,source_content_hash
+1,7,,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+2,2026-07-06,,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+3,Episodic Memory,10:PROVIDES_CONTEXT_TO|41:BLOCKS,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+4,Semantic Memory,13:PROVIDES_FACTS_TO|30:VALIDATES,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+5,Procedural Memory,11:PROVIDES_PATTERNS_TO,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+6,Working Memory,13:HOLDS|32:CLEARED_AT,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+7,Prospective Memory,13:SCHEDULES_INTO,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+8,Associative Memory,3:LINKS,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+9,Session State,10:CONTAINS|13:CONTAINS,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+10,Conversation History,9:REQUIRES|6:FEEDS,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+11,Tool Invocation Record,9:REQUIRES|9:PART_OF,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+12,Intermediate Result,9:REQUIRES|9:STORED_IN|6:FEEDS,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+13,Active Task Context,9:REQUIRES,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+14,Agent Identity,9:REQUIRES|9:ANCHORS|21:ASSOCIATED_WITH|22:GOVERNS,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+15,Exact Lookup,4:QUERIES,T-PATTERN,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+16,Similarity Search,3:QUERIES,T-PATTERN,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+17,Graph Traversal,8:QUERIES|16:OUTPERFORMS,T-PATTERN,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+18,Temporal Query,3:QUERIES|10:REQUIRES|34:ENABLES,T-PATTERN,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+19,Associative Recall,8:QUERIES,T-PATTERN,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+20,Chain-of-Thought Reconstruction,6:REBUILDS|10:REQUIRES,T-PATTERN,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+21,Agent Permitted Scope,22:DEFINES|13:LIMITS,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+22,Tool Permission Record,21:REQUIRES|25:RECORDED_IN|11:RECORDED_IN,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+23,Data Access Policy,21:REQUIRES|21:CONSTRAINS,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+24,Cross-Session Grant,21:REQUIRES|21:EXTENDS,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+25,Audit Trail,22:REQUIRES|24:EVIDENCES|10:COVERS,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+26,Permission Inheritance,21:REQUIRES|21:DERIVES_FROM,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+27,Persistence Scope,4:COVERS,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+28,Knowledge Decay Policy,27:REQUIRES|3:GOVERNS|10:APPLIED_TO,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+29,Compression Strategy,27:REQUIRES|4:COMPRESSES|4:PRODUCES_ENTRIES_IN|10:APPLIED_TO,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+30,Knowledge Freshness,4:REQUIRES,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+31,Staleness Detector,30:REQUIRES|30:MONITORS|3:APPLIED_TO,T-COMPONENT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+32,Session Boundary,9:REQUIRES|28:TRIGGERS|27:DETERMINES,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+33,AgentIQ Framework,35:USES_PROTOCOL|34:MONITORED_BY|39:AUDITED_BY|37:ORCHESTRATES_VIA|36:INVOKES_TOOLS_FROM|38:EXECUTES_PATTERN,T-PLATFORM,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+34,NeMo Relay,33:REQUIRES|11:RECORDS,T-PLATFORM,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+35,MCP Protocol,33:REQUIRES|36:REGISTERS_TOOLS_IN,T-STANDARD,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+36,Tool Registry,35:REQUIRES,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+37,Workflow YAML,33:REQUIRES,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+38,ReAct/ReWOO Pattern,33:REQUIRES,T-PATTERN,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+39,NeMo Auditor,33:REQUIRES|34:REQUIRES,T-COMPONENT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+40,Persistent Declarative Memory Gap,33:REQUIRES|4:REQUIRES|33:PRESENT_IN|17:CLOSED_BY,T-GAP,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+41,Cross-Session Context Gap,33:REQUIRES|32:REQUIRES|33:PRESENT_IN,T-GAP,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+42,Authorization Record Gap,33:REQUIRES|24:REQUIRES|33:PRESENT_IN|25:CLOSED_BY,T-GAP,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+43,false,,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+44,0.123,,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+45,0.120,,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc
+46,269,,T-CONCEPT,file://Knowledge_Graph_Graphify/ckg-agent-memory-v0.1.md,sha256:8edf28d0b62715cfca3204099a4d59f861049e46307f577b68218e342bc1c0bc

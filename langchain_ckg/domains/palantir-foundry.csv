@@ -1,0 +1,46 @@
+ConceptID,ConceptLabel,Dependencies,TaxonomyID,SourceURL,source_content_hash
+1,Palantir Foundry,4:REQUIRES,T-PLATFORM,https://www.sec.gov/Archives/edgar/data/1321655/000132165526000011/pltr-20251231.htm,sha256:a4fef9542c4d1a99a9265df88948e5a115223940db01a0bd01f1d8b6c00acd46
+2,Palantir Ontology,1:PART_OF|10:IMPLEMENTS,T-ONTOLOGY,https://www.palantir.com/docs/foundry/ontology/overview,sha256:0369b85dd50f8aa7b4ad367b980c8f7ad1c4a4fb7b97c5f2e4c8aa3698e93305
+3,Palantir AIP (Artificial Intelligence Platform),1:PART_OF|2:REQUIRES,T-AI,https://www.palantir.com/docs/foundry/aip/overview,sha256:90917a021e41951ad3ec482fc930df125912a398003de76746351e4b98df1ec7
+4,Palantir Apollo,1:DEPLOYS|5:DEPLOYS,T-OPS,https://www.sec.gov/Archives/edgar/data/1321655/000132165526000011/pltr-20251231.htm,sha256:a4fef9542c4d1a99a9265df88948e5a115223940db01a0bd01f1d8b6c00acd46
+5,Palantir Gotham,1:INTEGRATES_WITH,T-PLATFORM,https://www.sec.gov/Archives/edgar/data/1321655/000132165526000011/pltr-20251231.htm,sha256:a4fef9542c4d1a99a9265df88948e5a115223940db01a0bd01f1d8b6c00acd46
+6,Object Type,2:PART_OF|15:DERIVED_FROM,T-ONTOLOGY,https://www.palantir.com/docs/foundry/ontology/overview,sha256:0369b85dd50f8aa7b4ad367b980c8f7ad1c4a4fb7b97c5f2e4c8aa3698e93305
+7,Link Type,2:PART_OF|6:CONNECTS,T-ONTOLOGY,https://www.palantir.com/docs/foundry/ontology/overview,sha256:0369b85dd50f8aa7b4ad367b980c8f7ad1c4a4fb7b97c5f2e4c8aa3698e93305
+8,Action Type,2:PART_OF|6:MUTATES|11:IMPLEMENTS,T-ONTOLOGY,https://www.palantir.com/docs/foundry/ontology/overview,sha256:0369b85dd50f8aa7b4ad367b980c8f7ad1c4a4fb7b97c5f2e4c8aa3698e93305
+9,Function,2:PART_OF|6:COMPUTES_ON,T-ONTOLOGY,https://www.palantir.com/docs/foundry/functions/overview,sha256:5ccd268b22ffeb8699e13c86898ce019f9777ccdbb9182223c0c87feac098fe9
+10,Semantic Layer over Enterprise Data,15:REQUIRES,T-ONTOLOGY,https://www.palantir.com/docs/foundry/ontology/overview,sha256:0369b85dd50f8aa7b4ad367b980c8f7ad1c4a4fb7b97c5f2e4c8aa3698e93305
+11,Ontology Write-Back,,T-ONTOLOGY,https://www.palantir.com/docs/foundry/ontology/overview,sha256:0369b85dd50f8aa7b4ad367b980c8f7ad1c4a4fb7b97c5f2e4c8aa3698e93305
+12,Data Connection,1:PART_OF|15:PRODUCES,T-INTEGRATION,https://www.palantir.com/docs/foundry/data-connection/overview,sha256:d5c537743e26851a5cc503d4f73e725f27014ba0c3048ad75e82db17e140abd4
+13,Connection Agent,12:PART_OF,T-INTEGRATION,https://www.palantir.com/docs/foundry/data-connection/overview,sha256:d5c537743e26851a5cc503d4f73e725f27014ba0c3048ad75e82db17e140abd4
+14,Data Integration,12:REQUIRES,T-INTEGRATION,https://www.palantir.com/docs/foundry/data-integration/overview,sha256:7fde4ca215be2eec36773d8e6c1a3c25d1992719889e3709f89c2339d5fa55e5
+15,Dataset,,T-INTEGRATION,https://www.palantir.com/docs/foundry/data-integration/overview,sha256:7fde4ca215be2eec36773d8e6c1a3c25d1992719889e3709f89c2339d5fa55e5
+16,Foundry Fusion (Spreadsheet Integration),15:PRODUCES,T-INTEGRATION,https://www.palantir.com/docs/foundry/fusion/overview,sha256:caefb500136fa988975cf7d8e7246b68291d1494be5cc709552ac6e60a153dd2
+17,Pipeline Builder,1:PART_OF|15:TRANSFORMS|20:PART_OF|18:RELATES_TO,T-COMPUTE,https://www.palantir.com/docs/foundry/pipeline-builder/overview,sha256:5908ef132e7fc681879f54acecf01feed27e37cea46bbd51a4b73696ff558a0b
+18,Transforms (Python),15:TRANSFORMS|20:PART_OF,T-COMPUTE,https://www.palantir.com/docs/foundry/transforms-python/overview,sha256:00ce6465c8edcde8476b32ff36530cc4ca48886e09c0f9938b8564c64bce4ec6
+19,Code Workbook,15:TRANSFORMS|20:PART_OF,T-COMPUTE,https://www.palantir.com/docs/foundry/code-workbook/overview,sha256:6ddf937e8082ceff857e1c011c7d8f2075836226d5c3b36c8dec59fd21fa3523
+20,Building Pipelines,15:REQUIRES,T-COMPUTE,https://www.palantir.com/docs/foundry/building-pipelines/overview,sha256:cce49290f808017733cd69979975d1d6fc8473b342d2091cb52a671442d0d7ab
+21,Pipeline Branching,20:PART_OF,T-COMPUTE,https://www.palantir.com/docs/foundry/building-pipelines/overview,sha256:cce49290f808017733cd69979975d1d6fc8473b342d2091cb52a671442d0d7ab
+22,Build Schedule,20:ORCHESTRATES,T-COMPUTE,https://www.palantir.com/docs/foundry/building-pipelines/overview,sha256:cce49290f808017733cd69979975d1d6fc8473b342d2091cb52a671442d0d7ab
+23,Data Lineage,15:TRACKS|25:IMPLEMENTS,T-GOVERNANCE,https://www.palantir.com/docs/foundry/data-lineage/overview,sha256:fa6952813b27d571936d86becc8a820cfd54b71367094baaf7eea20a1d4a4356
+24,Data Health,15:MONITORS|22:REQUIRES,T-GOVERNANCE,https://www.palantir.com/docs/foundry/data-health/overview,sha256:ec0c3a4860bb30c7a9066eb3190450db9e7bf6ce5012f5f2f4b8df21d979d9fa
+25,End-to-End Data Provenance,38:ENABLES,T-GOVERNANCE,https://www.palantir.com/docs/foundry/data-lineage/overview,sha256:fa6952813b27d571936d86becc8a820cfd54b71367094baaf7eea20a1d4a4356
+26,Contour,1:PART_OF|28:PART_OF|2:READS|15:READS,T-ANALYTICS,https://www.palantir.com/docs/foundry/contour/overview,sha256:7e220eef60580332f6500730fce632a6c5e1a747f5459c69368e15ddb7833512
+27,Quiver,28:PART_OF|2:READS,T-ANALYTICS,https://www.palantir.com/docs/foundry/quiver/overview,sha256:c771cae27668bb2e3e6a63d777def51d4245fd2d2ceab6666fd3d33c0abf289c
+28,Analytics,,T-ANALYTICS,https://www.palantir.com/docs/foundry/analytics/overview,sha256:f07edeae4a6b2a64a6a7a4ffcfb84cb4f480aa4f99c9e17d3c41f8df952c4d13
+29,Workshop,1:PART_OF|31:PART_OF|2:READS|8:INVOKES,T-APP,https://www.palantir.com/docs/foundry/workshop/overview,sha256:c90b8283952980d5ccee5105d14fe5be4cea8ba1ccc2aa4c255bdb33a5532413
+30,Slate,31:PART_OF|2:READS,T-APP,https://www.palantir.com/docs/foundry/slate/overview,sha256:356fb3c8cdeb5846011ea03deeb7dcfa84da76b80e1e8860254f450086c29cc1
+31,Application Building,9:REQUIRES,T-APP,https://www.palantir.com/docs/foundry/app-building/overview,sha256:48d7b89a3bd0104a5f894a00463842945c3489bf4d467cf5d15494d4ba83b7f5
+32,Machinery (Process Orchestration),8:ORCHESTRATES,T-APP,https://www.palantir.com/docs/foundry/machinery/overview,sha256:81598223542c52acd9416cc6b3ac8485e8abe54b5f6200a36d2f790dbafe5ac2
+33,Secure Third-Party LLM Connectivity,3:PART_OF,T-AI,https://www.sec.gov/Archives/edgar/data/1321655/000132165526000011/pltr-20251231.htm,sha256:a4fef9542c4d1a99a9265df88948e5a115223940db01a0bd01f1d8b6c00acd46
+34,AIP Agent,3:PART_OF|33:REQUIRES|8:INVOKES|2:READS,T-AI,https://www.palantir.com/docs/foundry/aip/overview,sha256:90917a021e41951ad3ec482fc930df125912a398003de76746351e4b98df1ec7
+35,AI Development Toolchain,34:PRODUCES,T-AI,https://www.sec.gov/Archives/edgar/data/1321655/000132165526000011/pltr-20251231.htm,sha256:a4fef9542c4d1a99a9265df88948e5a115223940db01a0bd01f1d8b6c00acd46
+36,AI Evaluations Framework,3:PART_OF|38:IMPLEMENTS,T-AI,https://www.sec.gov/Archives/edgar/data/1321655/000132165526000011/pltr-20251231.htm,sha256:a4fef9542c4d1a99a9265df88948e5a115223940db01a0bd01f1d8b6c00acd46
+37,Model Integration,3:PART_OF|15:READS,T-AI,https://www.palantir.com/docs/foundry/model-integration/overview,sha256:a0391a8a71ccacee9b9a1c80ed8f907aad020f908125c977b45d3fe7b9c482dc
+38,Governing AI Workflows in Production,,T-AI,https://www.sec.gov/Archives/edgar/data/1321655/000132165526000011/pltr-20251231.htm,sha256:a4fef9542c4d1a99a9265df88948e5a115223940db01a0bd01f1d8b6c00acd46
+39,Foundry Security Model,1:PART_OF|15:RESTRICTS|6:RESTRICTS,T-GOVERNANCE,https://www.palantir.com/docs/foundry/security/overview,sha256:6927773eeb66029d45ef201b515c247859aa45fb3a4630e9ee3f52373e28e4e5
+40,Markings and Access Control,39:PART_OF|23:PROPAGATES_THROUGH,T-GOVERNANCE,https://www.palantir.com/docs/foundry/security/overview,sha256:6927773eeb66029d45ef201b515c247859aa45fb3a4630e9ee3f52373e28e4e5
+41,Administration,1:PART_OF|39:GOVERNS,T-GOVERNANCE,https://www.palantir.com/docs/foundry/administration/overview,sha256:9a64c29788e448d23725e0e9eb087212ecf04baf4f8af2b15ed46e1fb24d65ac
+42,Foundry DevOps,20:PROMOTES,T-OPS,https://www.palantir.com/docs/foundry/devops/overview,sha256:aac26294662205e209395b49b3457ebc6437fd6df3c4bd05d5393193d6649b5d
+43,Foundry Marketplace,2:DISTRIBUTES,T-OPS,https://www.palantir.com/docs/foundry/marketplace/overview,sha256:74c77d96df41df73377d4a85c8ade979abd0139d62a162b4d286d3ad488d2f40
+44,Architecture Center,1:DOCUMENTS,T-OPS,https://www.palantir.com/docs/foundry/architecture-center/overview,sha256:8e54dc2442a2113b662cd888c717d1506c5ddf86e3f654baed61ba18dd1d123a
+45,Getting Started,1:DOCUMENTS,T-OPS,https://www.palantir.com/docs/foundry/getting-started/overview,sha256:7b807ac7c05005d4ec8ef300207e1f02d5480df6a11bce41e074acce1cae7984

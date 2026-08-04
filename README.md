@@ -2,7 +2,7 @@
 
 # langchain-ckg
 
-**LangChain retriever backed by [Compact Knowledge Graphs](https://graphifymd.com) — deterministic, SHA-256 anchored, 4× better than RAG**
+**11 agent-stack knowledge graphs, bundled in the wheel. Offline, typed, SHA-256 anchored.**
 
 [![PyPI](https://img.shields.io/pypi/v/langchain-ckg?color=0f6e56&label=PyPI)](https://pypi.org/project/langchain-ckg/)
 [![Downloads](https://img.shields.io/pypi/dm/langchain-ckg?color=0f6e56)](https://pypi.org/project/langchain-ckg/)
@@ -13,7 +13,9 @@
 
 ---
 
-## CKG vs RAG — the difference that matters
+Your coding assistant writes LangChain code from 2024. LangChain v1 renamed `create_react_agent` → `create_agent`, moved it to `langchain.agents`, renamed `prompt` → `system_prompt`, and exiled legacy chains to `langchain-classic` — and every model trained before late 2025 emits the old API by default, while vector indexes of old tutorials confirm it.
+
+This package ships the antidote **inside the wheel**: pre-built knowledge graphs of the agent stack — LangGraph (including the v1 migration as typed `REPLACES` edges), MCP, agent memory, the major agent platforms — where every node carries the SHA-256 of the docs page it was extracted from. "Is this current?" becomes a mechanical check, not a hope.
 
 ```
 RAG                                    CKG
@@ -25,83 +27,116 @@ No provenance                          SHA-256 per node — verify any claim
 F1 = 0.123                             F1 = 0.471  (4× better)
 ```
 
-| Metric | CKG | RAG | GraphRAG |
-|--------|-----|-----|----------|
-| Macro F1 | **0.471** | 0.123 | 0.120 |
-| Tokens/query | **269** | 2,982 | 2,982 |
-| Cost @ $10/1M | **$0.003** | $0.030 | $0.030 |
-| Source provenance | SHA-256 per node | none | none |
-
 [Benchmark paper](https://github.com/Yarmoluk/ckg-benchmark/blob/main/paper/main.pdf) · [Dataset](https://huggingface.co/datasets/danyarm/ckg-benchmark) · patent-pending methodology
 
 ---
 
-## Install
+## Installation
 
 ```bash
 pip install langchain-ckg
 ```
 
----
+Depends only on `langchain-core` and `httpx`. The 11 graphs add ~120KB to the wheel.
+
+## Instantiation
+
+```python
+from langchain_ckg import CKGRetriever, available_domains
+
+retriever = CKGRetriever()          # bundled langgraph domain, offline
+print(available_domains())          # all 11 bundled domains
+```
 
 ## Usage
 
-### Hosted retriever — works out of the box, 48-hour free trial
+```python
+docs = retriever.invoke("checkpointer")
+print(docs[0].page_content)
+# # Checkpointer (langgraph)
+# ## Prerequisites
+#   - MemorySaver
+#     - StateGraph
+#       - LangGraph Framework
+# ## Builds toward
+#   - thread_id
+# Source: https://docs.langchain.com/oss/python/langgraph/persistence
+# Source hash: sha256:114c96d9...
 
-Queries the hosted CKG MCP endpoint. No setup beyond `pip install`.
+print(docs[0].metadata["source_url"])   # provenance in metadata too
+```
+
+Verify any answer against the live docs — no trust required:
+
+```bash
+curl -s https://docs.langchain.com/oss/python/langgraph/persistence | shasum -a 256
+# equals the stored source_hash, or the edge is stale — deterministic either way
+```
+
+## Use within an agent
+
+```python
+from langchain.agents import create_agent
+from langchain.tools import tool
+from langchain_ckg import CKGRetriever
+
+retriever = CKGRetriever()
+
+@tool
+def langgraph_map(query: str) -> str:
+    """Look up current LangGraph concepts, their prerequisites, and source docs."""
+    return "\n\n".join(d.page_content for d in retriever.invoke(query))
+
+agent = create_agent(model="anthropic:claude-opus-5", tools=[langgraph_map])
+```
+
+One-liner alternative: `from langchain_core.tools import create_retriever_tool` (works on langchain 0.3.x and 1.x).
+
+## Bundled domains
+
+| Domain | What it maps |
+|---|---|
+| `langgraph` *(default)* | StateGraph → checkpointers → streaming → multi-agent, **plus the v1 migration as `REPLACES` edges** |
+| `mcp-protocol` | Model Context Protocol — hosts, servers, transports, tools |
+| `agent-memory` | memory design patterns: episodic, semantic, working, cross-session |
+| `agent-loop-patterns` | supervisor, worker, handoff, reflection loops |
+| `aws-bedrock-agentcore` | AWS's agent runtime — gateways, identity, memory, tools |
+| `google-gemini-agent-platform` | Vertex Agent Engine / Gemini agent stack |
+| `a2a-protocol` | agent-to-agent protocol — cards, tasks, artifacts |
+| `microsoft-ai-agent-stack` | Agent Framework (the Semantic Kernel + AutoGen successor) |
+| `crewai` | crews, tasks, processes, flows |
+| `llamaindex` | agents, workflows, query engines |
+| `palantir-foundry` | ontology-first platform — Object/Link/Action Types |
+
+Examples: [`examples/stale_api_correction.py`](examples/stale_api_correction.py) · [`examples/agent_memory_map.py`](examples/agent_memory_map.py) — both run offline with no API key.
+
+## Hosted retriever — the full 100+ domain library
+
+`CKGHostedRetriever` queries a hosted CKG MCP endpoint (NVIDIA stack, finance, healthcare, compliance domains). 48-hour free window, then `402` with upgrade options.
 
 ```python
 from langchain_ckg import CKGHostedRetriever
-from langchain_openai import ChatOpenAI
-from langchain.chains import RetrievalQA
 
-# Free for 48 hours from first call
-retriever = CKGHostedRetriever(domain="nvidia-nemo")
-qa = RetrievalQA.from_chain_type(llm=ChatOpenAI(), retriever=retriever)
-result = qa.invoke("What does NeMo Guardrails require?")
+retriever = CKGHostedRetriever(domain="nvidia-nemo")            # free 48h
+retriever = CKGHostedRetriever(domain="nvidia-nemo",
+                               license_key="CKGAP-...")         # graphifymd.com/pricing
+```
 
-# After trial: pass a license key
+<details>
+<summary>Autonomous payment rails (x402 · Lightning · license key)</summary>
+
+```python
+# x402 — agent pays itself in USDC on Base L2 when it hits a 402
 retriever = CKGHostedRetriever(
     domain="nvidia-nemo",
-    license_key="CKGAP-...",  # graphifymd.com/pricing
+    x402_private_key="0x<evm-private-key>",   # pip install 'langchain-ckg[x402]'
 )
-```
 
-After 48 hours the server returns `402 Payment Required` with upgrade options. See [Payment rails](#payment-rails) for autonomous payment.
-
-### Local retriever — in-process, no network
-
-Runs entirely in-process against locally installed graphs. Requires the `ckg_mcp` runtime, distributed separately ([graphifymd.com](https://graphifymd.com)) — without it, `CKGRetriever` raises an `ImportError` pointing you to the hosted retriever above.
-
-```python
-from langchain_ckg import CKGRetriever
-
-retriever = CKGRetriever(domain="nvidia-nemoclaw", depth=3)
-result = retriever.invoke("How does NemoClaw handle CUDA kernel fusion?")
-```
-
----
-
-## Payment rails
-
-### x402 — autonomous USDC on Base L2
-
-Agent pays itself. No human in the loop.
-
-```python
+# Lightning — pre-paid invoice, ~$0.001/call
 retriever = CKGHostedRetriever(
     domain="nvidia-nemo",
-    x402_private_key="0x<evm-private-key>",
+    lightning_invoice_id="<invoice-id>",      # GET {endpoint}/lightning/invoice
 )
-# On 402: signs $0.010 USDC payment, retries, returns result
-```
-
-### License key — human-purchased, unlimited
-
-[graphifymd.com/pricing](https://graphifymd.com/pricing) → receive `CKGAP-...` key → pass once:
-
-```python
-retriever = CKGHostedRetriever(domain="nvidia-nemo", license_key="CKGAP-...")
 ```
 
 | Tier | Price | Calls |
@@ -110,82 +145,26 @@ retriever = CKGHostedRetriever(domain="nvidia-nemo", license_key="CKGAP-...")
 | Bundle | $4 | 500 |
 | Dev | $29/mo | Unlimited |
 
-### Lightning — autonomous sats
+Metered billing: `PolarUsageCallback(api_key=..., external_customer_id=...)` fires a Polar meter event per retrieval — pass via `retriever.invoke(query, config={"callbacks": [cb]})`.
 
-```python
-retriever = CKGHostedRetriever(
-    domain="nvidia-nemo",
-    lightning_invoice_id="<invoice-id>",  # GET {endpoint}/lightning/invoice
-)
-# 100 sats/call (~$0.001)
-```
-
----
-
-## Metered billing with PolarUsageCallback
-
-Track per-retrieval usage in Polar — fires a background thread, never blocks the chain:
-
-```python
-from langchain_ckg import CKGRetriever, PolarUsageCallback
-
-cb = PolarUsageCallback(api_key="sk_...", external_customer_id="license_key_abc")
-retriever = CKGRetriever(domain="nvidia-nemoclaw", depth=3)
-qa = RetrievalQA.from_chain_type(llm=ChatOpenAI(), retriever=retriever, callbacks=[cb])
-```
-
----
-
-## AgentKit integration
-
-Coinbase AgentKit agents pay x402 natively. Wire `CKGHostedRetriever` as a LangChain tool:
-
-```python
-from coinbase_agentkit_langchain import CoinbaseToolkit
-from langchain_ckg import CKGHostedRetriever
-from langchain.tools.retriever import create_retriever_tool
-
-retriever = CKGHostedRetriever(
-    domain="nvidia-nemo",
-    x402_private_key="0x<agentkit-wallet-key>",
-)
-ckg_tool = create_retriever_tool(
-    retriever,
-    name="query_knowledge_graph",
-    description="Retrieve SHA-256 anchored knowledge about the NVIDIA AI stack. Pays autonomously via x402.",
-)
-# Combine with AgentKit tools and run
-```
-
----
+</details>
 
 ## Trust anchor chain
 
-Every node carries a SHA-256 hash of its source document bytes at extraction time:
+Every node carries a SHA-256 hash of its source page bytes at extraction time:
 
 ```
-source_url:  https://docs.nvidia.com/nemo/...   ← fetch hint
-source_hash: sha256:<64-char hex>               ← trust anchor
+source_url:  https://docs.langchain.com/oss/python/langgraph/...   ← fetch hint
+source_hash: sha256:<64-char hex>                                  ← trust anchor
 ```
 
-Verify any claim:
+Full audit chain: `edge answer → graph commit → source_hash → source_url`. A hash mismatch means the upstream docs changed — the graph tells you it's stale instead of quietly guessing. Four bundled domains (`agent-memory`, `agent-loop-patterns`, `crewai`, `llamaindex`) currently carry extraction-internal references (`metadata.provenance = "extraction-internal"`) pending re-anchor to public URLs; the rest verify with `curl` today.
 
-```bash
-curl -s <source_url> | sha256sum
-# mismatch = stale edge or upstream silent edit — no judgment needed
-```
+## API reference
 
-Full audit chain: `edge answer → graph commit → source_hash → source_url`
-
----
-
-## Available domains
-
-**117 domains** — NVIDIA AI stack, NemoClaw, Salesforce AgentForce, finance (Basel III · SEC · IFRS), agent protocols (MCP · A2A · x402), infrastructure (Render · Stripe · PostHog · Cloudflare), and more.
-
-Each hosted endpoint exposes a `list_domains` MCP tool — or browse the full library at [graphifymd.com](https://graphifymd.com).
-
----
+`CKGRetriever(domain="langgraph", depth=3, k=5)` — bundled/local, sync `.invoke()` (async via default `ainvoke` delegation).
+`CKGHostedRetriever(endpoint=..., domain=..., license_key=..., x402_private_key=..., lightning_invoice_id=..., depth=3, k=5)` — hosted MCP.
+`available_domains() -> list[str]` — bundled domain names.
 
 ## Links
 
