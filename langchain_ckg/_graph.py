@@ -9,12 +9,46 @@ carries the SHA-256 of its source page bytes at extraction time.
 from __future__ import annotations
 
 import csv
+import re
 from collections import defaultdict, deque
 from pathlib import Path
 
 DOMAINS_DIR = Path(__file__).parent / "domains"
 
 _GRAPH_CACHE: dict = {}
+
+# Authoring-metadata leak filter — kept in sync by hand with the same filter in
+# ckg-mcp's src/ckg_mcp/graph.py (separate packages, can't share an import).
+# See that file's comment for the full rationale. Audited 2026-09-07: bundled
+# agent-memory.csv carries the same leaked rows as ckg-mcp's copy.
+_SCALAR_LEAK_RE = re.compile(
+    r"^\d+(\.\d+)?$|^(?:true|false)$|^\d{4}-\d{2}-\d{2}$", re.IGNORECASE
+)
+
+
+def _leak_dep_id(dep_str: str) -> str:
+    return dep_str.split(":")[0] if ":" in dep_str else dep_str
+
+
+def filter_leaked_metadata_rows(rows: list[dict]) -> list[dict]:
+    """Drop authoring-metadata rows (scalar label, zero edges in either direction)."""
+    incoming: set = set()
+    for row in rows:
+        for dep in (row.get("Dependencies") or "").split("|"):
+            dep = dep.strip()
+            if dep:
+                incoming.add(_leak_dep_id(dep))
+
+    def is_leak(row: dict) -> bool:
+        label = (row.get("ConceptLabel") or "").strip()
+        if not _SCALAR_LEAK_RE.match(label):
+            return False
+        if (row.get("Dependencies") or "").strip():
+            return False
+        cid = (row.get("ConceptID") or "").strip()
+        return cid not in incoming
+
+    return [row for row in rows if not is_leak(row)]
 
 
 def available_domains() -> list[str]:
@@ -54,7 +88,8 @@ def load_graph(domain: str):
     provenance: dict = {}
 
     with open(csv_path, encoding="utf-8") as f:
-        for row in csv.DictReader(f):
+        rows = filter_leaked_metadata_rows(list(csv.DictReader(f)))
+        for row in rows:
             cid = row["ConceptID"]
             label = row["ConceptLabel"].strip()
             deps = [d.strip() for d in row["Dependencies"].split("|") if d.strip()]
