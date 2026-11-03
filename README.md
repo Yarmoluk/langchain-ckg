@@ -92,6 +92,12 @@ agent = create_agent(model="anthropic:claude-opus-5", tools=[langgraph_map])
 
 One-liner alternative: `from langchain_core.tools import create_retriever_tool` (works on langchain 0.3.x and 1.x).
 
+## Matching
+
+`CKGRetriever` ranks, it does not substring-match. Case, separators and word order are ignored (`check_pointer`, `Pointer Check`), a question that contains the concept name resolves to it (`"how do I persist state across turns with a checkpointer?"` → Checkpointer), and a one-letter typo lands via difflib (`checkpoitner`). `Document.metadata["how"]` names the tier: exact · normalized · contains · inside · substring · close · shared. Ambiguity is returned as candidates, never resolved silently.
+
+`CKGRetriever(domain="auto")` routes each query to the bundled graph whose labels cover it best, no model call (`route_domains(query)` exposes the ranking). Measured on the bundled graphs with `evals/search_perturbation.py`: see the table in the PR that shipped it.
+
 ## Bundled domains
 
 | Domain | What it maps |

@@ -1,0 +1,42 @@
+{
+  "domains": 11,
+  "labels": 322,
+  "pool": 322,
+  "by_variant": {
+    "case": {
+      "n": 322,
+      "legacy@1": 320,
+      "legacy@5": 322,
+      "ranker@1": 322,
+      "ranker@5": 322
+    },
+    "sep": {
+      "n": 322,
+      "legacy@1": 0,
+      "legacy@5": 0,
+      "ranker@1": 322,
+      "ranker@5": 322
+    },
+    "order": {
+      "n": 244,
+      "legacy@1": 63,
+      "legacy@5": 192,
+      "ranker@1": 244,
+      "ranker@5": 244
+    },
+    "typo": {
+      "n": 316,
+      "legacy@1": 126,
+      "legacy@5": 237,
+      "ranker@1": 206,
+      "ranker@5": 309
+    },
+    "drop": {
+      "n": 157,
+      "legacy@1": 123,
+      "legacy@5": 139,
+      "ranker@1": 150,
+      "ranker@5": 156
+    }
+  }
+}
