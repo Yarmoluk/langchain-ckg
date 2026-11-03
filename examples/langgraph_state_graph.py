@@ -14,11 +14,14 @@ trial key at https://tally.so/r/b5Ep4g and export it as ``CKG_LICENSE_KEY``.
 
     pip install langchain-ckg[langgraph]
     export CKG_LICENSE_KEY=...                     # X-License-Key for the server
-    python examples/langgraph_state_graph.py checkpointer
+    python examples/langgraph_state_graph.py "how do I persist state across turns with a checkpointer?"
 
 Without ``ANTHROPIC_API_KEY`` the ``answer`` node is a deterministic formatter.
 ``--local`` swaps in the in-process ``CKGRetriever`` over the graphs bundled in
-this package, which is what the offline tests use.
+this package, which is what the offline tests use. Matching is lexical and
+ranked: a question that names the concept ("... with a checkpointer?") resolves;
+one that only describes it ("why does my agent forget?") does not, and the
+graph says so rather than guessing.
 """
 
 import os
@@ -118,7 +121,7 @@ def _default_model():
 if __name__ == "__main__":
     args = [a for a in sys.argv[1:] if a != "--local"]
     local = "--local" in sys.argv
-    question = " ".join(args) or "checkpointer"
+    question = " ".join(args) or "how do I persist state across turns with a checkpointer?"
     retriever = CKGRetriever(depth=3) if local else hosted_retriever()
     app = build_graph(retriever=retriever, model=_default_model())
     out = app.invoke({"question": question})

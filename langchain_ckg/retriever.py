@@ -48,8 +48,14 @@ class CKGRetriever(BaseRetriever):
     runtime if installed, or use ``CKGHostedRetriever`` for the full hosted
     library.
 
+    Matching is ranked, not substring: case, separators and word order are
+    ignored, a question that contains the concept name still finds it, and a
+    typo within difflib ratio 0.6 still lands (``Document.metadata["how"]`` says
+    which tier matched). ``domain="auto"`` routes each query to the bundled
+    domain whose labels cover it best, with no model call.
+
     Args:
-        domain: Bundled domain name (default "langgraph").
+        domain: Bundled domain name (default "langgraph"), or "auto" to route.
         depth: Upstream prerequisite hops to traverse (1–5, default 3).
         k: Maximum number of concept matches to return (default 5).
     """
@@ -65,42 +71,40 @@ class CKGRetriever(BaseRetriever):
         run_manager: CallbackManagerForRetrieverRun,
     ) -> List[Document]:
         from langchain_ckg._graph import DOMAINS_DIR, available_domains
+        from langchain_ckg._rank import rank_concepts, route_domains
 
-        if (DOMAINS_DIR / f"{self.domain}.csv").exists():
+        domain = self.domain
+        if domain == "auto":
+            routed = route_domains(query, 1)
+            if not routed:
+                return []
+            domain = routed[0][0]
+
+        if (DOMAINS_DIR / f"{domain}.csv").exists():
             from langchain_ckg._graph import load_graph, bfs_subgraph
         else:
             try:
                 from ckg_mcp.graph import load_graph, bfs_subgraph
             except ImportError:
                 raise ValueError(
-                    f"Domain '{self.domain}' is not bundled with langchain-ckg. "
+                    f"Domain '{domain}' is not bundled with langchain-ckg. "
                     f"Bundled domains: {', '.join(available_domains())}. "
                     "For the full 100+ domain library use CKGHostedRetriever "
                     "(hosted, 48h free) — see https://graphifymd.com."
                 )
 
-        graph = load_graph(self.domain)
+        graph = load_graph(domain)
         id_to_label, label_to_id, prerequisites, dependents, taxonomy = graph[:5]
         provenance = graph[5] if len(graph) > 5 else {}
 
-        q = query.lower().strip()
-        matches = [(label, cid) for label, cid in label_to_id.items() if q in label][:self.k]
-
-        if not matches:
-            # Fuzzy: any word in query matches any word in label
-            words = q.split()
-            matches = [
-                (label, cid)
-                for label, cid in label_to_id.items()
-                if any(w in label for w in words)
-            ][:self.k]
+        matches = rank_concepts(label_to_id, query, self.k)
 
         docs = []
-        for label, cid in matches:
+        for label, cid, how in matches:
             prereqs = bfs_subgraph(cid, prerequisites, id_to_label, self.depth)
             deps = bfs_subgraph(cid, dependents, id_to_label, 2)
 
-            lines = [f"# {id_to_label[cid]} ({self.domain})", ""]
+            lines = [f"# {id_to_label[cid]} ({domain})", ""]
             lines.append("## Prerequisites")
             for node in prereqs[1:]:
                 lines.append("  " * node["depth"] + f"- {node['concept']}")
@@ -123,8 +127,9 @@ class CKGRetriever(BaseRetriever):
                 Document(
                     page_content="\n".join(lines),
                     metadata={
-                        "domain": self.domain,
+                        "domain": domain,
                         "concept": id_to_label[cid],
+                        "how": how,
                         "taxonomy": tax,
                         "source_url": prov.get("source_url", ""),
                         "source_hash": prov.get("source_hash", ""),
