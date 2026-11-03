@@ -108,7 +108,7 @@ One-liner alternative: `from langchain_core.tools import create_retriever_tool` 
 | `llamaindex` | agents, workflows, query engines |
 | `palantir-foundry` | ontology-first platform — Object/Link/Action Types |
 
-Examples: [`examples/stale_api_correction.py`](examples/stale_api_correction.py) · [`examples/agent_memory_map.py`](examples/agent_memory_map.py) — both run offline with no API key.
+Examples: [`examples/stale_api_correction.py`](examples/stale_api_correction.py) · [`examples/agent_memory_map.py`](examples/agent_memory_map.py) · — both run offline with no API key. [`examples/langgraph_state_graph.py`](examples/langgraph_state_graph.py) is a two-node `StateGraph` whose `retrieve` node is the hosted CKG over read-only MCP (`CKG_LICENSE_KEY`, free trial key) and whose `answer` node only phrases; `--local` runs it offline on the bundled graph (`pip install langchain-ckg[langgraph]`).
 
 ## Hosted retriever — the full 100+ domain library
 

@@ -18,6 +18,8 @@ Usage (langchain >= 1.0 idiom):
 
 from __future__ import annotations
 
+import json
+import re
 import threading
 from typing import Any, List, Optional
 from uuid import UUID
@@ -136,6 +138,39 @@ class CKGRetriever(BaseRetriever):
             )
 
         return docs
+
+
+_PROV_URL_RE = re.compile(r"^(?:knowledge_source_ref|Source):\s*(\S+)", re.MULTILINE)
+_PROV_HASH_RE = re.compile(r"^(?:source_content_hash|Source hash):\s*(sha256:[0-9a-f]{64})", re.MULTILINE)
+_CONCEPT_RE = re.compile(r"^##\s+(.+?)\s+·\s", re.MULTILINE)
+
+
+def _unwrap_hosted_content(content: str):
+    """Hosted ``query_ckg`` returns a JSON envelope ``{"text", "tokens", ...}``.
+
+    Return the rendered text and the provenance it declares (source URL,
+    SHA-256 content hash, resolved concept label, token count) so they land in
+    ``Document.metadata`` exactly as the in-process retriever's do.
+    """
+    text, meta = content, {}
+    try:
+        env = json.loads(content)
+        if isinstance(env, dict) and isinstance(env.get("text"), str):
+            text = env["text"]
+            if isinstance(env.get("tokens"), int):
+                meta["tokens"] = env["tokens"]
+    except (ValueError, TypeError):
+        pass
+    m = _PROV_URL_RE.search(text)
+    if m:
+        meta["source_url"] = m.group(1)
+    m = _PROV_HASH_RE.search(text)
+    if m:
+        meta["source_hash"] = m.group(1)
+    m = _CONCEPT_RE.search(text)
+    if m:
+        meta["concept"] = m.group(1).strip()
+    return text, meta
 
 
 class CKGHostedRetriever(BaseRetriever):
@@ -310,13 +345,17 @@ class CKGHostedRetriever(BaseRetriever):
         except Exception as e:
             return [Document(page_content=f"CKG query failed: {e}", metadata={"domain": self.domain})]
 
+        text, prov = _unwrap_hosted_content(content)
         return [
             Document(
-                page_content=content,
+                page_content=text,
                 metadata={
                     "domain": self.domain,
-                    "concept": query,
+                    "concept": prov.get("concept") or query,
                     "source": self.endpoint,
+                    "source_url": prov.get("source_url", ""),
+                    "source_hash": prov.get("source_hash", ""),
+                    "tokens": prov.get("tokens"),
                     "payment_rail": "x402" if self.x402_private_key else (
                         "lightning" if self.lightning_invoice_id else (
                             "license" if self.license_key else "free"

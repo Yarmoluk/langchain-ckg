@@ -2,7 +2,7 @@ from langchain_ckg.retriever import CKGRetriever, CKGHostedRetriever, PolarUsage
 from langchain_ckg._graph import available_domains
 
 __all__ = ["CKGRetriever", "CKGHostedRetriever", "PolarUsageCallback", "available_domains"]
-__version__ = "0.6.0"
+__version__ = "0.7.0"
 
 import os as _os, sys as _sys, threading as _threading
 
